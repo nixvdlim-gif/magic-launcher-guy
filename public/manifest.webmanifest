@@ -1,0 +1,15 @@
+{
+  "name": "ChaleBid — Play, Win, Earn",
+  "short_name": "ChaleBid",
+  "description": "Multiplayer Ludo gaming. Play, win, withdraw.",
+  "start_url": "/home",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0a1233",
+  "theme_color": "#1e5bff",
+  "lang": "en",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

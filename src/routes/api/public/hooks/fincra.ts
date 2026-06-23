@@ -1,0 +1,134 @@
+import { createFileRoute } from "@tanstack/react-router";
+
+// Fincra webhook handler — verifies HMAC SHA512 signature with secret_key
+// Header: "signature" = HMAC-SHA512(raw_body, secret_key) hex
+
+export const Route = createFileRoute("/api/public/hooks/fincra")({
+  server: {
+    handlers: {
+      GET: async () =>
+        new Response(JSON.stringify({ ok: true, endpoint: "fincra-webhook" }), {
+          status: 200,
+          headers: { "Content-Type": "application/json" },
+        }),
+
+      POST: async ({ request }) => {
+        const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+
+        const { data: row } = await supabaseAdmin
+          .from("app_settings")
+          .select("value")
+          .eq("key", "fincra")
+          .maybeSingle();
+        const cfg = (row?.value ?? {}) as {
+          enabled?: boolean;
+          secret_key?: string;
+          webhook_secret?: string;
+        };
+
+        const raw = await request.text();
+        const signature = request.headers.get("signature") ?? "";
+        const verifyKey = cfg.webhook_secret || cfg.secret_key || "";
+
+        if (!verifyKey) {
+          return json({ ok: false, error: "webhook not configured" }, 503);
+        }
+
+        const { createHmac, timingSafeEqual } = await import("crypto");
+        const expected = createHmac("sha512", verifyKey).update(raw).digest("hex");
+        try {
+          const a = Buffer.from(signature);
+          const b = Buffer.from(expected);
+          if (a.length !== b.length || !timingSafeEqual(a, b)) {
+            return json({ ok: false, error: "invalid signature" }, 401);
+          }
+        } catch {
+          return json({ ok: false, error: "invalid signature" }, 401);
+        }
+
+
+        let payload: any = {};
+        try {
+          payload = JSON.parse(raw);
+        } catch {
+          return json({ ok: false, error: "invalid body" }, 400);
+        }
+
+        const event: string = String(payload.event ?? payload.type ?? "");
+        const d = payload.data ?? payload;
+        const reference: string = String(
+          d.reference ?? d.merchantReference ?? d.customReference ?? "",
+        );
+        if (!reference) return json({ ok: false, error: "missing reference" }, 400);
+
+        const status: string = String(d.status ?? "").toLowerCase();
+        const success =
+          event.includes("success") ||
+          status === "success" ||
+          status === "successful" ||
+          status === "approved" ||
+          status === "completed";
+        const failed =
+          event.includes("failed") ||
+          status === "failed" ||
+          status === "declined" ||
+          status === "cancelled";
+
+        const { data: tx } = await supabaseAdmin
+          .from("transactions")
+          .select("id, user_id, amount, status, method")
+          .eq("external_txn_id", reference)
+          .eq("method", "fincra")
+          .maybeSingle();
+        if (!tx) return json({ ok: false, error: "txn not found" }, 404);
+        if (tx.status === "approved") return json({ ok: true, already: true });
+
+        if (failed && !success) {
+          await supabaseAdmin
+            .from("transactions")
+            .update({
+              status: "rejected",
+              processed_at: new Date().toISOString(),
+              admin_note: `Fincra ${status || event || "failed"}`,
+              meta: { gateway: "fincra", payload },
+            })
+            .eq("id", tx.id);
+          return json({ ok: true, status: "rejected" });
+        }
+
+        if (!success) return json({ ok: true, status: "ignored" });
+
+        // Amount sanity (Fincra reports major units)
+        const reportedAmount = Number(d.amount ?? d.amountPaid ?? 0);
+        if (reportedAmount > 0 && Math.abs(reportedAmount - Number(tx.amount)) > 0.01) {
+          await supabaseAdmin
+            .from("transactions")
+            .update({
+              status: "rejected",
+              processed_at: new Date().toISOString(),
+              admin_note: `Amount mismatch: got ${reportedAmount}, expected ${tx.amount}`,
+            })
+            .eq("id", tx.id);
+          return json({ ok: false, error: "amount mismatch" }, 400);
+        }
+
+        const { data: rpcRes, error: rpcErr } = await supabaseAdmin.rpc(
+          "admin_process_transaction" as any,
+          { _txn_id: tx.id, _action: "approve" },
+        );
+        if (rpcErr) return json({ ok: false, error: rpcErr.message }, 500);
+        const r = rpcRes as { ok: boolean; error?: string } | null;
+        if (!r?.ok) return json({ ok: false, error: r?.error ?? "rpc failed" }, 500);
+
+        return json({ ok: true, status: "approved", reference });
+      },
+    },
+  },
+});
+
+function json(body: unknown, status = 200) {
+  return new Response(JSON.stringify(body), {
+    status,
+    headers: { "Content-Type": "application/json" },
+  });
+}
