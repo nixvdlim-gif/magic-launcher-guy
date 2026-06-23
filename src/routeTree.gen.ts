@@ -9,38 +9,631 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TermsRouteImport } from './routes/terms'
+import { Route as SignupRouteImport } from './routes/signup'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as LudoPreviewRouteImport } from './routes/ludo-preview'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as GuestRouteImport } from './routes/guest'
+import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedWithdrawRouteImport } from './routes/_authenticated.withdraw'
+import { Route as AuthenticatedWalletRouteImport } from './routes/_authenticated.wallet'
+import { Route as AuthenticatedTransferRouteImport } from './routes/_authenticated.transfer'
+import { Route as AuthenticatedTransactionsRouteImport } from './routes/_authenticated.transactions'
+import { Route as AuthenticatedTournamentsRouteImport } from './routes/_authenticated.tournaments'
+import { Route as AuthenticatedSupportRouteImport } from './routes/_authenticated.support'
+import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated.settings'
+import { Route as AuthenticatedRoyalStepsRouteImport } from './routes/_authenticated.royal-steps'
+import { Route as AuthenticatedRewardsRouteImport } from './routes/_authenticated.rewards'
+import { Route as AuthenticatedReferralRouteImport } from './routes/_authenticated.referral'
+import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated.profile'
+import { Route as AuthenticatedPlayFriendRouteImport } from './routes/_authenticated.play-friend'
+import { Route as AuthenticatedNotificationsRouteImport } from './routes/_authenticated.notifications'
+import { Route as AuthenticatedLevelsRouteImport } from './routes/_authenticated.levels'
+import { Route as AuthenticatedLeaderboardRouteImport } from './routes/_authenticated.leaderboard'
+import { Route as AuthenticatedKycRouteImport } from './routes/_authenticated.kyc'
+import { Route as AuthenticatedHomeRouteImport } from './routes/_authenticated.home'
+import { Route as AuthenticatedHistoryRouteImport } from './routes/_authenticated.history'
+import { Route as AuthenticatedGamesRouteImport } from './routes/_authenticated.games'
+import { Route as AuthenticatedFxCasinoRouteImport } from './routes/_authenticated.fx-casino'
+import { Route as AuthenticatedEmojiShopRouteImport } from './routes/_authenticated.emoji-shop'
+import { Route as AuthenticatedChatRouteImport } from './routes/_authenticated.chat'
+import { Route as AuthenticatedAgentsRouteImport } from './routes/_authenticated.agents'
+import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated.admin'
+import { Route as AuthenticatedAddCashRouteImport } from './routes/_authenticated.add-cash'
+import { Route as AuthenticatedTournamentsIdRouteImport } from './routes/_authenticated.tournaments.$id'
+import { Route as AuthenticatedRoomRoomIdRouteImport } from './routes/_authenticated.room.$roomId'
+import { Route as AuthenticatedPlayModeRouteImport } from './routes/_authenticated.play.$mode'
+import { Route as AuthenticatedMatchmakingModeRouteImport } from './routes/_authenticated.matchmaking.$mode'
+import { Route as AuthenticatedBoardRoomIdRouteImport } from './routes/_authenticated.board.$roomId'
+import { Route as ApiPublicHooksFincraRouteImport } from './routes/api/public/hooks/fincra'
+import { Route as ApiPublicHooksCleanupRoomsRouteImport } from './routes/api/public/hooks/cleanup-rooms'
 
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SignupRoute = SignupRouteImport.update({
+  id: '/signup',
+  path: '/signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LudoPreviewRoute = LudoPreviewRouteImport.update({
+  id: '/ludo-preview',
+  path: '/ludo-preview',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GuestRoute = GuestRouteImport.update({
+  id: '/guest',
+  path: '/guest',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
+  id: '/forgot-password',
+  path: '/forgot-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRoute = AuthenticatedRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedWithdrawRoute = AuthenticatedWithdrawRouteImport.update({
+  id: '/withdraw',
+  path: '/withdraw',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedWalletRoute = AuthenticatedWalletRouteImport.update({
+  id: '/wallet',
+  path: '/wallet',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedTransferRoute = AuthenticatedTransferRouteImport.update({
+  id: '/transfer',
+  path: '/transfer',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedTransactionsRoute =
+  AuthenticatedTransactionsRouteImport.update({
+    id: '/transactions',
+    path: '/transactions',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedTournamentsRoute =
+  AuthenticatedTournamentsRouteImport.update({
+    id: '/tournaments',
+    path: '/tournaments',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedSupportRoute = AuthenticatedSupportRouteImport.update({
+  id: '/support',
+  path: '/support',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedRoyalStepsRoute = AuthenticatedRoyalStepsRouteImport.update({
+  id: '/royal-steps',
+  path: '/royal-steps',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedRewardsRoute = AuthenticatedRewardsRouteImport.update({
+  id: '/rewards',
+  path: '/rewards',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedReferralRoute = AuthenticatedReferralRouteImport.update({
+  id: '/referral',
+  path: '/referral',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedPlayFriendRoute = AuthenticatedPlayFriendRouteImport.update({
+  id: '/play-friend',
+  path: '/play-friend',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedNotificationsRoute =
+  AuthenticatedNotificationsRouteImport.update({
+    id: '/notifications',
+    path: '/notifications',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedLevelsRoute = AuthenticatedLevelsRouteImport.update({
+  id: '/levels',
+  path: '/levels',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedLeaderboardRoute =
+  AuthenticatedLeaderboardRouteImport.update({
+    id: '/leaderboard',
+    path: '/leaderboard',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedKycRoute = AuthenticatedKycRouteImport.update({
+  id: '/kyc',
+  path: '/kyc',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedHomeRoute = AuthenticatedHomeRouteImport.update({
+  id: '/home',
+  path: '/home',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedHistoryRoute = AuthenticatedHistoryRouteImport.update({
+  id: '/history',
+  path: '/history',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedGamesRoute = AuthenticatedGamesRouteImport.update({
+  id: '/games',
+  path: '/games',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedFxCasinoRoute = AuthenticatedFxCasinoRouteImport.update({
+  id: '/fx-casino',
+  path: '/fx-casino',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedEmojiShopRoute = AuthenticatedEmojiShopRouteImport.update({
+  id: '/emoji-shop',
+  path: '/emoji-shop',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedChatRoute = AuthenticatedChatRouteImport.update({
+  id: '/chat',
+  path: '/chat',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedAgentsRoute = AuthenticatedAgentsRouteImport.update({
+  id: '/agents',
+  path: '/agents',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedAddCashRoute = AuthenticatedAddCashRouteImport.update({
+  id: '/add-cash',
+  path: '/add-cash',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedTournamentsIdRoute =
+  AuthenticatedTournamentsIdRouteImport.update({
+    id: '/$id',
+    path: '/$id',
+    getParentRoute: () => AuthenticatedTournamentsRoute,
+  } as any)
+const AuthenticatedRoomRoomIdRoute = AuthenticatedRoomRoomIdRouteImport.update({
+  id: '/room/$roomId',
+  path: '/room/$roomId',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedPlayModeRoute = AuthenticatedPlayModeRouteImport.update({
+  id: '/play/$mode',
+  path: '/play/$mode',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedMatchmakingModeRoute =
+  AuthenticatedMatchmakingModeRouteImport.update({
+    id: '/matchmaking/$mode',
+    path: '/matchmaking/$mode',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedBoardRoomIdRoute =
+  AuthenticatedBoardRoomIdRouteImport.update({
+    id: '/board/$roomId',
+    path: '/board/$roomId',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const ApiPublicHooksFincraRoute = ApiPublicHooksFincraRouteImport.update({
+  id: '/api/public/hooks/fincra',
+  path: '/api/public/hooks/fincra',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicHooksCleanupRoomsRoute =
+  ApiPublicHooksCleanupRoomsRouteImport.update({
+    id: '/api/public/hooks/cleanup-rooms',
+    path: '/api/public/hooks/cleanup-rooms',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/guest': typeof GuestRoute
+  '/login': typeof LoginRoute
+  '/ludo-preview': typeof LudoPreviewRoute
+  '/privacy': typeof PrivacyRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/signup': typeof SignupRoute
+  '/terms': typeof TermsRoute
+  '/add-cash': typeof AuthenticatedAddCashRoute
+  '/admin': typeof AuthenticatedAdminRoute
+  '/agents': typeof AuthenticatedAgentsRoute
+  '/chat': typeof AuthenticatedChatRoute
+  '/emoji-shop': typeof AuthenticatedEmojiShopRoute
+  '/fx-casino': typeof AuthenticatedFxCasinoRoute
+  '/games': typeof AuthenticatedGamesRoute
+  '/history': typeof AuthenticatedHistoryRoute
+  '/home': typeof AuthenticatedHomeRoute
+  '/kyc': typeof AuthenticatedKycRoute
+  '/leaderboard': typeof AuthenticatedLeaderboardRoute
+  '/levels': typeof AuthenticatedLevelsRoute
+  '/notifications': typeof AuthenticatedNotificationsRoute
+  '/play-friend': typeof AuthenticatedPlayFriendRoute
+  '/profile': typeof AuthenticatedProfileRoute
+  '/referral': typeof AuthenticatedReferralRoute
+  '/rewards': typeof AuthenticatedRewardsRoute
+  '/royal-steps': typeof AuthenticatedRoyalStepsRoute
+  '/settings': typeof AuthenticatedSettingsRoute
+  '/support': typeof AuthenticatedSupportRoute
+  '/tournaments': typeof AuthenticatedTournamentsRouteWithChildren
+  '/transactions': typeof AuthenticatedTransactionsRoute
+  '/transfer': typeof AuthenticatedTransferRoute
+  '/wallet': typeof AuthenticatedWalletRoute
+  '/withdraw': typeof AuthenticatedWithdrawRoute
+  '/board/$roomId': typeof AuthenticatedBoardRoomIdRoute
+  '/matchmaking/$mode': typeof AuthenticatedMatchmakingModeRoute
+  '/play/$mode': typeof AuthenticatedPlayModeRoute
+  '/room/$roomId': typeof AuthenticatedRoomRoomIdRoute
+  '/tournaments/$id': typeof AuthenticatedTournamentsIdRoute
+  '/api/public/hooks/cleanup-rooms': typeof ApiPublicHooksCleanupRoomsRoute
+  '/api/public/hooks/fincra': typeof ApiPublicHooksFincraRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/guest': typeof GuestRoute
+  '/login': typeof LoginRoute
+  '/ludo-preview': typeof LudoPreviewRoute
+  '/privacy': typeof PrivacyRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/signup': typeof SignupRoute
+  '/terms': typeof TermsRoute
+  '/add-cash': typeof AuthenticatedAddCashRoute
+  '/admin': typeof AuthenticatedAdminRoute
+  '/agents': typeof AuthenticatedAgentsRoute
+  '/chat': typeof AuthenticatedChatRoute
+  '/emoji-shop': typeof AuthenticatedEmojiShopRoute
+  '/fx-casino': typeof AuthenticatedFxCasinoRoute
+  '/games': typeof AuthenticatedGamesRoute
+  '/history': typeof AuthenticatedHistoryRoute
+  '/home': typeof AuthenticatedHomeRoute
+  '/kyc': typeof AuthenticatedKycRoute
+  '/leaderboard': typeof AuthenticatedLeaderboardRoute
+  '/levels': typeof AuthenticatedLevelsRoute
+  '/notifications': typeof AuthenticatedNotificationsRoute
+  '/play-friend': typeof AuthenticatedPlayFriendRoute
+  '/profile': typeof AuthenticatedProfileRoute
+  '/referral': typeof AuthenticatedReferralRoute
+  '/rewards': typeof AuthenticatedRewardsRoute
+  '/royal-steps': typeof AuthenticatedRoyalStepsRoute
+  '/settings': typeof AuthenticatedSettingsRoute
+  '/support': typeof AuthenticatedSupportRoute
+  '/tournaments': typeof AuthenticatedTournamentsRouteWithChildren
+  '/transactions': typeof AuthenticatedTransactionsRoute
+  '/transfer': typeof AuthenticatedTransferRoute
+  '/wallet': typeof AuthenticatedWalletRoute
+  '/withdraw': typeof AuthenticatedWithdrawRoute
+  '/board/$roomId': typeof AuthenticatedBoardRoomIdRoute
+  '/matchmaking/$mode': typeof AuthenticatedMatchmakingModeRoute
+  '/play/$mode': typeof AuthenticatedPlayModeRoute
+  '/room/$roomId': typeof AuthenticatedRoomRoomIdRoute
+  '/tournaments/$id': typeof AuthenticatedTournamentsIdRoute
+  '/api/public/hooks/cleanup-rooms': typeof ApiPublicHooksCleanupRoomsRoute
+  '/api/public/hooks/fincra': typeof ApiPublicHooksFincraRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteWithChildren
+  '/about': typeof AboutRoute
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/guest': typeof GuestRoute
+  '/login': typeof LoginRoute
+  '/ludo-preview': typeof LudoPreviewRoute
+  '/privacy': typeof PrivacyRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/signup': typeof SignupRoute
+  '/terms': typeof TermsRoute
+  '/_authenticated/add-cash': typeof AuthenticatedAddCashRoute
+  '/_authenticated/admin': typeof AuthenticatedAdminRoute
+  '/_authenticated/agents': typeof AuthenticatedAgentsRoute
+  '/_authenticated/chat': typeof AuthenticatedChatRoute
+  '/_authenticated/emoji-shop': typeof AuthenticatedEmojiShopRoute
+  '/_authenticated/fx-casino': typeof AuthenticatedFxCasinoRoute
+  '/_authenticated/games': typeof AuthenticatedGamesRoute
+  '/_authenticated/history': typeof AuthenticatedHistoryRoute
+  '/_authenticated/home': typeof AuthenticatedHomeRoute
+  '/_authenticated/kyc': typeof AuthenticatedKycRoute
+  '/_authenticated/leaderboard': typeof AuthenticatedLeaderboardRoute
+  '/_authenticated/levels': typeof AuthenticatedLevelsRoute
+  '/_authenticated/notifications': typeof AuthenticatedNotificationsRoute
+  '/_authenticated/play-friend': typeof AuthenticatedPlayFriendRoute
+  '/_authenticated/profile': typeof AuthenticatedProfileRoute
+  '/_authenticated/referral': typeof AuthenticatedReferralRoute
+  '/_authenticated/rewards': typeof AuthenticatedRewardsRoute
+  '/_authenticated/royal-steps': typeof AuthenticatedRoyalStepsRoute
+  '/_authenticated/settings': typeof AuthenticatedSettingsRoute
+  '/_authenticated/support': typeof AuthenticatedSupportRoute
+  '/_authenticated/tournaments': typeof AuthenticatedTournamentsRouteWithChildren
+  '/_authenticated/transactions': typeof AuthenticatedTransactionsRoute
+  '/_authenticated/transfer': typeof AuthenticatedTransferRoute
+  '/_authenticated/wallet': typeof AuthenticatedWalletRoute
+  '/_authenticated/withdraw': typeof AuthenticatedWithdrawRoute
+  '/_authenticated/board/$roomId': typeof AuthenticatedBoardRoomIdRoute
+  '/_authenticated/matchmaking/$mode': typeof AuthenticatedMatchmakingModeRoute
+  '/_authenticated/play/$mode': typeof AuthenticatedPlayModeRoute
+  '/_authenticated/room/$roomId': typeof AuthenticatedRoomRoomIdRoute
+  '/_authenticated/tournaments/$id': typeof AuthenticatedTournamentsIdRoute
+  '/api/public/hooks/cleanup-rooms': typeof ApiPublicHooksCleanupRoomsRoute
+  '/api/public/hooks/fincra': typeof ApiPublicHooksFincraRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/forgot-password'
+    | '/guest'
+    | '/login'
+    | '/ludo-preview'
+    | '/privacy'
+    | '/reset-password'
+    | '/signup'
+    | '/terms'
+    | '/add-cash'
+    | '/admin'
+    | '/agents'
+    | '/chat'
+    | '/emoji-shop'
+    | '/fx-casino'
+    | '/games'
+    | '/history'
+    | '/home'
+    | '/kyc'
+    | '/leaderboard'
+    | '/levels'
+    | '/notifications'
+    | '/play-friend'
+    | '/profile'
+    | '/referral'
+    | '/rewards'
+    | '/royal-steps'
+    | '/settings'
+    | '/support'
+    | '/tournaments'
+    | '/transactions'
+    | '/transfer'
+    | '/wallet'
+    | '/withdraw'
+    | '/board/$roomId'
+    | '/matchmaking/$mode'
+    | '/play/$mode'
+    | '/room/$roomId'
+    | '/tournaments/$id'
+    | '/api/public/hooks/cleanup-rooms'
+    | '/api/public/hooks/fincra'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/about'
+    | '/forgot-password'
+    | '/guest'
+    | '/login'
+    | '/ludo-preview'
+    | '/privacy'
+    | '/reset-password'
+    | '/signup'
+    | '/terms'
+    | '/add-cash'
+    | '/admin'
+    | '/agents'
+    | '/chat'
+    | '/emoji-shop'
+    | '/fx-casino'
+    | '/games'
+    | '/history'
+    | '/home'
+    | '/kyc'
+    | '/leaderboard'
+    | '/levels'
+    | '/notifications'
+    | '/play-friend'
+    | '/profile'
+    | '/referral'
+    | '/rewards'
+    | '/royal-steps'
+    | '/settings'
+    | '/support'
+    | '/tournaments'
+    | '/transactions'
+    | '/transfer'
+    | '/wallet'
+    | '/withdraw'
+    | '/board/$roomId'
+    | '/matchmaking/$mode'
+    | '/play/$mode'
+    | '/room/$roomId'
+    | '/tournaments/$id'
+    | '/api/public/hooks/cleanup-rooms'
+    | '/api/public/hooks/fincra'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/about'
+    | '/forgot-password'
+    | '/guest'
+    | '/login'
+    | '/ludo-preview'
+    | '/privacy'
+    | '/reset-password'
+    | '/signup'
+    | '/terms'
+    | '/_authenticated/add-cash'
+    | '/_authenticated/admin'
+    | '/_authenticated/agents'
+    | '/_authenticated/chat'
+    | '/_authenticated/emoji-shop'
+    | '/_authenticated/fx-casino'
+    | '/_authenticated/games'
+    | '/_authenticated/history'
+    | '/_authenticated/home'
+    | '/_authenticated/kyc'
+    | '/_authenticated/leaderboard'
+    | '/_authenticated/levels'
+    | '/_authenticated/notifications'
+    | '/_authenticated/play-friend'
+    | '/_authenticated/profile'
+    | '/_authenticated/referral'
+    | '/_authenticated/rewards'
+    | '/_authenticated/royal-steps'
+    | '/_authenticated/settings'
+    | '/_authenticated/support'
+    | '/_authenticated/tournaments'
+    | '/_authenticated/transactions'
+    | '/_authenticated/transfer'
+    | '/_authenticated/wallet'
+    | '/_authenticated/withdraw'
+    | '/_authenticated/board/$roomId'
+    | '/_authenticated/matchmaking/$mode'
+    | '/_authenticated/play/$mode'
+    | '/_authenticated/room/$roomId'
+    | '/_authenticated/tournaments/$id'
+    | '/api/public/hooks/cleanup-rooms'
+    | '/api/public/hooks/fincra'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
+  AboutRoute: typeof AboutRoute
+  ForgotPasswordRoute: typeof ForgotPasswordRoute
+  GuestRoute: typeof GuestRoute
+  LoginRoute: typeof LoginRoute
+  LudoPreviewRoute: typeof LudoPreviewRoute
+  PrivacyRoute: typeof PrivacyRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
+  SignupRoute: typeof SignupRoute
+  TermsRoute: typeof TermsRoute
+  ApiPublicHooksCleanupRoomsRoute: typeof ApiPublicHooksCleanupRoomsRoute
+  ApiPublicHooksFincraRoute: typeof ApiPublicHooksFincraRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/signup': {
+      id: '/signup'
+      path: '/signup'
+      fullPath: '/signup'
+      preLoaderRoute: typeof SignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ludo-preview': {
+      id: '/ludo-preview'
+      path: '/ludo-preview'
+      fullPath: '/ludo-preview'
+      preLoaderRoute: typeof LudoPreviewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/guest': {
+      id: '/guest'
+      path: '/guest'
+      fullPath: '/guest'
+      preLoaderRoute: typeof GuestRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/forgot-password': {
+      id: '/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof ForgotPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,22 +641,330 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/withdraw': {
+      id: '/_authenticated/withdraw'
+      path: '/withdraw'
+      fullPath: '/withdraw'
+      preLoaderRoute: typeof AuthenticatedWithdrawRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/wallet': {
+      id: '/_authenticated/wallet'
+      path: '/wallet'
+      fullPath: '/wallet'
+      preLoaderRoute: typeof AuthenticatedWalletRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/transfer': {
+      id: '/_authenticated/transfer'
+      path: '/transfer'
+      fullPath: '/transfer'
+      preLoaderRoute: typeof AuthenticatedTransferRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/transactions': {
+      id: '/_authenticated/transactions'
+      path: '/transactions'
+      fullPath: '/transactions'
+      preLoaderRoute: typeof AuthenticatedTransactionsRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/tournaments': {
+      id: '/_authenticated/tournaments'
+      path: '/tournaments'
+      fullPath: '/tournaments'
+      preLoaderRoute: typeof AuthenticatedTournamentsRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/support': {
+      id: '/_authenticated/support'
+      path: '/support'
+      fullPath: '/support'
+      preLoaderRoute: typeof AuthenticatedSupportRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/settings': {
+      id: '/_authenticated/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof AuthenticatedSettingsRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/royal-steps': {
+      id: '/_authenticated/royal-steps'
+      path: '/royal-steps'
+      fullPath: '/royal-steps'
+      preLoaderRoute: typeof AuthenticatedRoyalStepsRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/rewards': {
+      id: '/_authenticated/rewards'
+      path: '/rewards'
+      fullPath: '/rewards'
+      preLoaderRoute: typeof AuthenticatedRewardsRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/referral': {
+      id: '/_authenticated/referral'
+      path: '/referral'
+      fullPath: '/referral'
+      preLoaderRoute: typeof AuthenticatedReferralRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/profile': {
+      id: '/_authenticated/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof AuthenticatedProfileRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/play-friend': {
+      id: '/_authenticated/play-friend'
+      path: '/play-friend'
+      fullPath: '/play-friend'
+      preLoaderRoute: typeof AuthenticatedPlayFriendRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/notifications': {
+      id: '/_authenticated/notifications'
+      path: '/notifications'
+      fullPath: '/notifications'
+      preLoaderRoute: typeof AuthenticatedNotificationsRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/levels': {
+      id: '/_authenticated/levels'
+      path: '/levels'
+      fullPath: '/levels'
+      preLoaderRoute: typeof AuthenticatedLevelsRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/leaderboard': {
+      id: '/_authenticated/leaderboard'
+      path: '/leaderboard'
+      fullPath: '/leaderboard'
+      preLoaderRoute: typeof AuthenticatedLeaderboardRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/kyc': {
+      id: '/_authenticated/kyc'
+      path: '/kyc'
+      fullPath: '/kyc'
+      preLoaderRoute: typeof AuthenticatedKycRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/home': {
+      id: '/_authenticated/home'
+      path: '/home'
+      fullPath: '/home'
+      preLoaderRoute: typeof AuthenticatedHomeRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/history': {
+      id: '/_authenticated/history'
+      path: '/history'
+      fullPath: '/history'
+      preLoaderRoute: typeof AuthenticatedHistoryRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/games': {
+      id: '/_authenticated/games'
+      path: '/games'
+      fullPath: '/games'
+      preLoaderRoute: typeof AuthenticatedGamesRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/fx-casino': {
+      id: '/_authenticated/fx-casino'
+      path: '/fx-casino'
+      fullPath: '/fx-casino'
+      preLoaderRoute: typeof AuthenticatedFxCasinoRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/emoji-shop': {
+      id: '/_authenticated/emoji-shop'
+      path: '/emoji-shop'
+      fullPath: '/emoji-shop'
+      preLoaderRoute: typeof AuthenticatedEmojiShopRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/chat': {
+      id: '/_authenticated/chat'
+      path: '/chat'
+      fullPath: '/chat'
+      preLoaderRoute: typeof AuthenticatedChatRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/agents': {
+      id: '/_authenticated/agents'
+      path: '/agents'
+      fullPath: '/agents'
+      preLoaderRoute: typeof AuthenticatedAgentsRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/admin': {
+      id: '/_authenticated/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthenticatedAdminRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/add-cash': {
+      id: '/_authenticated/add-cash'
+      path: '/add-cash'
+      fullPath: '/add-cash'
+      preLoaderRoute: typeof AuthenticatedAddCashRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/tournaments/$id': {
+      id: '/_authenticated/tournaments/$id'
+      path: '/$id'
+      fullPath: '/tournaments/$id'
+      preLoaderRoute: typeof AuthenticatedTournamentsIdRouteImport
+      parentRoute: typeof AuthenticatedTournamentsRoute
+    }
+    '/_authenticated/room/$roomId': {
+      id: '/_authenticated/room/$roomId'
+      path: '/room/$roomId'
+      fullPath: '/room/$roomId'
+      preLoaderRoute: typeof AuthenticatedRoomRoomIdRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/play/$mode': {
+      id: '/_authenticated/play/$mode'
+      path: '/play/$mode'
+      fullPath: '/play/$mode'
+      preLoaderRoute: typeof AuthenticatedPlayModeRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/matchmaking/$mode': {
+      id: '/_authenticated/matchmaking/$mode'
+      path: '/matchmaking/$mode'
+      fullPath: '/matchmaking/$mode'
+      preLoaderRoute: typeof AuthenticatedMatchmakingModeRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/board/$roomId': {
+      id: '/_authenticated/board/$roomId'
+      path: '/board/$roomId'
+      fullPath: '/board/$roomId'
+      preLoaderRoute: typeof AuthenticatedBoardRoomIdRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/api/public/hooks/fincra': {
+      id: '/api/public/hooks/fincra'
+      path: '/api/public/hooks/fincra'
+      fullPath: '/api/public/hooks/fincra'
+      preLoaderRoute: typeof ApiPublicHooksFincraRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/hooks/cleanup-rooms': {
+      id: '/api/public/hooks/cleanup-rooms'
+      path: '/api/public/hooks/cleanup-rooms'
+      fullPath: '/api/public/hooks/cleanup-rooms'
+      preLoaderRoute: typeof ApiPublicHooksCleanupRoomsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
+interface AuthenticatedTournamentsRouteChildren {
+  AuthenticatedTournamentsIdRoute: typeof AuthenticatedTournamentsIdRoute
+}
+
+const AuthenticatedTournamentsRouteChildren: AuthenticatedTournamentsRouteChildren =
+  {
+    AuthenticatedTournamentsIdRoute: AuthenticatedTournamentsIdRoute,
+  }
+
+const AuthenticatedTournamentsRouteWithChildren =
+  AuthenticatedTournamentsRoute._addFileChildren(
+    AuthenticatedTournamentsRouteChildren,
+  )
+
+interface AuthenticatedRouteChildren {
+  AuthenticatedAddCashRoute: typeof AuthenticatedAddCashRoute
+  AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
+  AuthenticatedAgentsRoute: typeof AuthenticatedAgentsRoute
+  AuthenticatedChatRoute: typeof AuthenticatedChatRoute
+  AuthenticatedEmojiShopRoute: typeof AuthenticatedEmojiShopRoute
+  AuthenticatedFxCasinoRoute: typeof AuthenticatedFxCasinoRoute
+  AuthenticatedGamesRoute: typeof AuthenticatedGamesRoute
+  AuthenticatedHistoryRoute: typeof AuthenticatedHistoryRoute
+  AuthenticatedHomeRoute: typeof AuthenticatedHomeRoute
+  AuthenticatedKycRoute: typeof AuthenticatedKycRoute
+  AuthenticatedLeaderboardRoute: typeof AuthenticatedLeaderboardRoute
+  AuthenticatedLevelsRoute: typeof AuthenticatedLevelsRoute
+  AuthenticatedNotificationsRoute: typeof AuthenticatedNotificationsRoute
+  AuthenticatedPlayFriendRoute: typeof AuthenticatedPlayFriendRoute
+  AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
+  AuthenticatedReferralRoute: typeof AuthenticatedReferralRoute
+  AuthenticatedRewardsRoute: typeof AuthenticatedRewardsRoute
+  AuthenticatedRoyalStepsRoute: typeof AuthenticatedRoyalStepsRoute
+  AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
+  AuthenticatedSupportRoute: typeof AuthenticatedSupportRoute
+  AuthenticatedTournamentsRoute: typeof AuthenticatedTournamentsRouteWithChildren
+  AuthenticatedTransactionsRoute: typeof AuthenticatedTransactionsRoute
+  AuthenticatedTransferRoute: typeof AuthenticatedTransferRoute
+  AuthenticatedWalletRoute: typeof AuthenticatedWalletRoute
+  AuthenticatedWithdrawRoute: typeof AuthenticatedWithdrawRoute
+  AuthenticatedBoardRoomIdRoute: typeof AuthenticatedBoardRoomIdRoute
+  AuthenticatedMatchmakingModeRoute: typeof AuthenticatedMatchmakingModeRoute
+  AuthenticatedPlayModeRoute: typeof AuthenticatedPlayModeRoute
+  AuthenticatedRoomRoomIdRoute: typeof AuthenticatedRoomRoomIdRoute
+}
+
+const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
+  AuthenticatedAddCashRoute: AuthenticatedAddCashRoute,
+  AuthenticatedAdminRoute: AuthenticatedAdminRoute,
+  AuthenticatedAgentsRoute: AuthenticatedAgentsRoute,
+  AuthenticatedChatRoute: AuthenticatedChatRoute,
+  AuthenticatedEmojiShopRoute: AuthenticatedEmojiShopRoute,
+  AuthenticatedFxCasinoRoute: AuthenticatedFxCasinoRoute,
+  AuthenticatedGamesRoute: AuthenticatedGamesRoute,
+  AuthenticatedHistoryRoute: AuthenticatedHistoryRoute,
+  AuthenticatedHomeRoute: AuthenticatedHomeRoute,
+  AuthenticatedKycRoute: AuthenticatedKycRoute,
+  AuthenticatedLeaderboardRoute: AuthenticatedLeaderboardRoute,
+  AuthenticatedLevelsRoute: AuthenticatedLevelsRoute,
+  AuthenticatedNotificationsRoute: AuthenticatedNotificationsRoute,
+  AuthenticatedPlayFriendRoute: AuthenticatedPlayFriendRoute,
+  AuthenticatedProfileRoute: AuthenticatedProfileRoute,
+  AuthenticatedReferralRoute: AuthenticatedReferralRoute,
+  AuthenticatedRewardsRoute: AuthenticatedRewardsRoute,
+  AuthenticatedRoyalStepsRoute: AuthenticatedRoyalStepsRoute,
+  AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
+  AuthenticatedSupportRoute: AuthenticatedSupportRoute,
+  AuthenticatedTournamentsRoute: AuthenticatedTournamentsRouteWithChildren,
+  AuthenticatedTransactionsRoute: AuthenticatedTransactionsRoute,
+  AuthenticatedTransferRoute: AuthenticatedTransferRoute,
+  AuthenticatedWalletRoute: AuthenticatedWalletRoute,
+  AuthenticatedWithdrawRoute: AuthenticatedWithdrawRoute,
+  AuthenticatedBoardRoomIdRoute: AuthenticatedBoardRoomIdRoute,
+  AuthenticatedMatchmakingModeRoute: AuthenticatedMatchmakingModeRoute,
+  AuthenticatedPlayModeRoute: AuthenticatedPlayModeRoute,
+  AuthenticatedRoomRoomIdRoute: AuthenticatedRoomRoomIdRoute,
+}
+
+const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
+  AuthenticatedRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRoute: AuthenticatedRouteWithChildren,
+  AboutRoute: AboutRoute,
+  ForgotPasswordRoute: ForgotPasswordRoute,
+  GuestRoute: GuestRoute,
+  LoginRoute: LoginRoute,
+  LudoPreviewRoute: LudoPreviewRoute,
+  PrivacyRoute: PrivacyRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
+  SignupRoute: SignupRoute,
+  TermsRoute: TermsRoute,
+  ApiPublicHooksCleanupRoomsRoute: ApiPublicHooksCleanupRoomsRoute,
+  ApiPublicHooksFincraRoute: ApiPublicHooksFincraRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

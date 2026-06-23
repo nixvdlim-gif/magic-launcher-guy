@@ -7,10 +7,16 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
-import { reportLovableError } from "../lib/lovable-error-reporting";
+import { AuthProvider } from "@/lib/auth";
+import { I18nProvider } from "@/lib/i18n";
+import { CurrencyProvider } from "@/lib/currency";
+import { Toaster } from "@/components/ui/sonner";
+import { useEffect } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { useQueryClient } from "@tanstack/react-query";
+import { usePushNotifications } from "@/hooks/use-push-notifications";
 
 function NotFoundComponent() {
   return (
@@ -37,8 +43,24 @@ function NotFoundComponent() {
 function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   console.error(error);
   const router = useRouter();
+
+  // Auto-recover from stale chunk errors after a deploy: browsers cache the
+  // old route chunk hash; loading the new build returns 404. Hard-reload once
+  // to fetch the fresh chunk before showing the error UI.
   useEffect(() => {
-    reportLovableError(error, { boundary: "tanstack_root_error_component" });
+    const msg = String(error?.message ?? "");
+    const isChunkErr =
+      /Failed to fetch dynamically imported module/i.test(msg) ||
+      /Importing a module script failed/i.test(msg) ||
+      /ChunkLoadError/i.test(msg) ||
+      /Loading chunk \d+ failed/i.test(msg);
+    if (!isChunkErr) return;
+    if (typeof window === "undefined") return;
+    const KEY = "lt_chunk_reload_at";
+    const last = Number(sessionStorage.getItem(KEY) ?? 0);
+    if (Date.now() - last < 10_000) return; // avoid reload loop
+    sessionStorage.setItem(KEY, String(Date.now()));
+    window.location.reload();
   }, [error]);
 
   return (
@@ -77,20 +99,34 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "ChaleBid — Play, Win, Earn" },
+      { name: "description", content: "ChaleBid — multiplayer Ludo gaming. Play, win, and withdraw." },
+      { name: "author", content: "ChaleBid" },
+      { property: "og:title", content: "ChaleBid — Play, Win, Earn" },
+      { property: "og:description", content: "ChaleBid — multiplayer Ludo gaming. Play, win, and withdraw." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "theme-color", content: "#0a0a0f" },
+      { name: "apple-mobile-web-app-capable", content: "yes" },
+      { name: "apple-mobile-web-app-status-bar-style", content: "black-translucent" },
+      { name: "apple-mobile-web-app-title", content: "ChaleBid" },
+      { name: "twitter:title", content: "ChaleBid — Play, Win, Earn" },
+      { name: "twitter:description", content: "ChaleBid — multiplayer Ludo gaming. Play, win, and withdraw." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/4a420a89-3e8f-45ee-b87a-d3df21e3d391/id-preview-6bb47def--609c12a2-31b5-4856-9896-5aa311147d37.lovable.app-1778859937084.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/4a420a89-3e8f-45ee-b87a-d3df21e3d391/id-preview-6bb47def--609c12a2-31b5-4856-9896-5aa311147d37.lovable.app-1778859937084.png" },
     ],
     links: [
       {
         rel: "stylesheet",
         href: appCss,
       },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap",
+      },
+      { rel: "manifest", href: "/manifest.webmanifest" },
+      { rel: "apple-touch-icon", href: "/icon-192.png" },
     ],
   }),
   shellComponent: RootShell,
@@ -99,7 +135,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   errorComponent: ErrorComponent,
 });
 
-function RootShell({ children }: { children: ReactNode }) {
+function RootShell({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <head>
@@ -115,11 +151,105 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
-
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <I18nProvider>
+        <CurrencyProvider>
+          <AuthProvider>
+            <AuthSync />
+            <PushNotificationsMount />
+            <ThemeLoader />
+            <ServiceWorkerMount />
+            <Outlet />
+            <Toaster theme="dark" position="top-center" />
+          </AuthProvider>
+        </CurrencyProvider>
+      </I18nProvider>
     </QueryClientProvider>
   );
 }
+
+function PushNotificationsMount() {
+  usePushNotifications();
+  return null;
+}
+
+function AuthSync() {
+  const router = useRouter();
+  const qc = useQueryClient();
+  useEffect(() => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(() => {
+      router.invalidate();
+      qc.invalidateQueries();
+    });
+    return () => subscription.unsubscribe();
+  }, [router, qc]);
+  return null;
+}
+
+function ThemeLoader() {
+  useEffect(() => {
+    (async () => {
+      const { data } = await supabase
+        .from("app_settings")
+        .select("value")
+        .eq("key", "theme")
+        .maybeSingle();
+      const theme = data?.value as Record<string, string> | undefined;
+      if (!theme) return;
+      const root = document.documentElement;
+      Object.entries(theme).forEach(([k, v]) => {
+        if (typeof v === "string") root.style.setProperty(`--${k.replace(/_/g, "-")}`, v);
+      });
+    })();
+  }, []);
+  return null;
+}
+
+function ServiceWorkerMount() {
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (!("serviceWorker" in navigator)) return;
+
+    // Detect preview / iframe contexts — never register SW there
+    const host = window.location.hostname;
+    const isPreview =
+      host.includes("id-preview--") ||
+      host.includes("lovableproject.com") ||
+      host.includes("lovable.dev") ||
+      host === "localhost" ||
+      host.startsWith("127.");
+    let isIframe = false;
+    try {
+      isIframe = window.self !== window.top;
+    } catch {
+      isIframe = true;
+    }
+
+    if (isPreview || isIframe) {
+      // Clean up any previously-registered SW in preview contexts
+      navigator.serviceWorker.getRegistrations().then((regs) => {
+        regs.forEach((r) => r.unregister());
+      });
+      return;
+    }
+
+    // Production: register and auto-update on new versions
+    navigator.serviceWorker
+      .register("/sw.js", { scope: "/" })
+      .then((reg) => {
+        reg.addEventListener("updatefound", () => {
+          const nw = reg.installing;
+          if (!nw) return;
+          nw.addEventListener("statechange", () => {
+            if (nw.state === "activated") {
+              // New SW took control — silent; next navigation will be fresh
+            }
+          });
+        });
+      })
+      .catch(() => {});
+  }, []);
+  return null;
+}
+
