@@ -224,6 +224,42 @@ export type Database = {
         }
         Relationships: []
       }
+      commission_ledger: {
+        Row: {
+          commission_amount: number
+          commission_percent: number
+          created_at: string
+          id: string
+          mode: string
+          player_count: number
+          pot_amount: number
+          room_id: string
+          winner_id: string | null
+        }
+        Insert: {
+          commission_amount?: number
+          commission_percent?: number
+          created_at?: string
+          id?: string
+          mode: string
+          player_count?: number
+          pot_amount?: number
+          room_id: string
+          winner_id?: string | null
+        }
+        Update: {
+          commission_amount?: number
+          commission_percent?: number
+          created_at?: string
+          id?: string
+          mode?: string
+          player_count?: number
+          pot_amount?: number
+          room_id?: string
+          winner_id?: string | null
+        }
+        Relationships: []
+      }
       coupon_redemptions: {
         Row: {
           amount: number
@@ -527,6 +563,7 @@ export type Database = {
           started_at: string | null
           state: Json
           status: Database["public"]["Enums"]["room_status"]
+          turn_started_at: string | null
           updated_at: string
           winner_id: string | null
         }
@@ -545,6 +582,7 @@ export type Database = {
           started_at?: string | null
           state?: Json
           status?: Database["public"]["Enums"]["room_status"]
+          turn_started_at?: string | null
           updated_at?: string
           winner_id?: string | null
         }
@@ -563,6 +601,7 @@ export type Database = {
           started_at?: string | null
           state?: Json
           status?: Database["public"]["Enums"]["room_status"]
+          turn_started_at?: string | null
           updated_at?: string
           winner_id?: string | null
         }
@@ -728,6 +767,7 @@ export type Database = {
           game_id: string
           id: string
           is_blocked: boolean
+          is_bot: boolean
           is_verified: boolean
           language: Database["public"]["Enums"]["app_language"]
           level: number
@@ -745,6 +785,7 @@ export type Database = {
           game_id: string
           id: string
           is_blocked?: boolean
+          is_bot?: boolean
           is_verified?: boolean
           language?: Database["public"]["Enums"]["app_language"]
           level?: number
@@ -762,6 +803,7 @@ export type Database = {
           game_id?: string
           id?: string
           is_blocked?: boolean
+          is_bot?: boolean
           is_verified?: boolean
           language?: Database["public"]["Enums"]["app_language"]
           level?: number
@@ -816,6 +858,33 @@ export type Database = {
           level?: number
           source_deposit_id?: string | null
           source_user_id?: string
+        }
+        Relationships: []
+      }
+      refunds: {
+        Row: {
+          amount: number
+          created_at: string
+          id: string
+          reason: string
+          room_id: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          id?: string
+          reason?: string
+          room_id: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          id?: string
+          reason?: string
+          room_id?: string
+          user_id?: string
         }
         Relationships: []
       }
@@ -945,6 +1014,45 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      tournament_matches: {
+        Row: {
+          created_at: string
+          id: string
+          match_no: number
+          player1_id: string | null
+          player2_id: string | null
+          round: number
+          status: string
+          tournament_id: string
+          updated_at: string
+          winner_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          match_no: number
+          player1_id?: string | null
+          player2_id?: string | null
+          round: number
+          status?: string
+          tournament_id: string
+          updated_at?: string
+          winner_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          match_no?: number
+          player1_id?: string | null
+          player2_id?: string | null
+          round?: number
+          status?: string
+          tournament_id?: string
+          updated_at?: string
+          winner_id?: string | null
+        }
+        Relationships: []
       }
       tournaments: {
         Row: {
@@ -1077,6 +1185,8 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      admin_get_phone: { Args: { _uid: string }; Returns: string }
+      check_level_gate: { Args: { _entry_fee: number }; Returns: Json }
       claim_daily_bonus: { Args: never; Returns: Json }
       claim_first_admin: { Args: never; Returns: string }
       finish_solo_game: {
@@ -1091,6 +1201,7 @@ export type Database = {
         Returns: Json
       }
       generate_game_id: { Args: never; Returns: string }
+      get_my_phone: { Args: never; Returns: string }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -1121,7 +1232,13 @@ export type Database = {
         | "referral_bonus"
         | "announcement"
         | "system"
-      payment_method: "bkash" | "nagad" | "rocket" | "bank" | "system"
+      payment_method:
+        | "bkash"
+        | "nagad"
+        | "rocket"
+        | "bank"
+        | "system"
+        | "fincra"
       room_status: "waiting" | "playing" | "finished" | "cancelled"
       ticket_status: "open" | "pending" | "resolved" | "closed"
       tournament_status: "upcoming" | "live" | "completed" | "cancelled"
@@ -1284,7 +1401,7 @@ export const Constants = {
         "announcement",
         "system",
       ],
-      payment_method: ["bkash", "nagad", "rocket", "bank", "system"],
+      payment_method: ["bkash", "nagad", "rocket", "bank", "system", "fincra"],
       room_status: ["waiting", "playing", "finished", "cancelled"],
       ticket_status: ["open", "pending", "resolved", "closed"],
       tournament_status: ["upcoming", "live", "completed", "cancelled"],
