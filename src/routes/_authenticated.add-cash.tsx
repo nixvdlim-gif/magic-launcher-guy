@@ -85,16 +85,6 @@ function AddCashPage() {
         <h1 className="text-xl font-bold">{lang === "bn" ? "টাকা যোগ করুন" : "Add Cash"}</h1>
       </div>
 
-      <div className="rounded-2xl p-4 bg-gradient-primary text-primary-foreground shadow-glow">
-        <div className="flex items-center gap-2 text-xs opacity-90">
-          <Wallet className="h-4 w-4" />
-          {lang === "bn" ? "বর্তমান ব্যালেন্স" : "Current Balance"}
-        </div>
-        <div className="text-2xl font-extrabold mt-1">
-          {c} {(bal.deposit + bal.winnings).toFixed(2)}
-        </div>
-      </div>
-
       {qtEnabled && (
         <Card className="p-4 space-y-3 border-primary/40">
           <div className="flex items-center gap-2">
@@ -121,25 +111,19 @@ function AddCashPage() {
           <Button className="w-full" onClick={startQuickteller} disabled={qtBusy}>
             <Zap className="h-4 w-4 mr-1" />
             {qtBusy
-              ? lang === "bn"
-                ? "শুরু হচ্ছে…"
-                : "Starting…"
-              : lang === "bn"
-                ? "Fincra এ পে করুন"
-                : "Pay with Fincra"}
+              ? lang === "bn" ? "শুরু হচ্ছে…" : "Starting…"
+              : lang === "bn" ? "Fincra এ পে করুন" : "Pay with Fincra"}
           </Button>
         </Card>
       )}
 
-      <div className="rounded-2xl glass-rim p-4 text-sm leading-relaxed text-foreground/90">
-        {lang === "bn"
-          ? "অথবা ম্যানুয়াল মেথড দিয়ে পাঠিয়ে Transaction ID দিন — অ্যাডমিন ১৫ মিনিটের মধ্যে অ্যাপ্রুভ করবে।"
-          : "Or use a manual method and submit the Transaction ID — admin approves within 15 minutes."}
-      </div>
-
-      <Button variant="secondary" className="w-full" onClick={() => setOpen(true)}>
-        {lang === "bn" ? "ম্যানুয়াল ডিপোজিট" : "Manual Deposit"}
-      </Button>
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+        className="w-full text-xs text-muted-foreground underline underline-offset-4"
+      >
+        {lang === "bn" ? "ম্যানুয়াল মেথড ব্যবহার করুন" : "Use a manual method"}
+      </button>
 
       <form ref={formRef} style={{ display: "none" }} />
 
