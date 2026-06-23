@@ -224,6 +224,42 @@ export type Database = {
         }
         Relationships: []
       }
+      commission_ledger: {
+        Row: {
+          commission_amount: number
+          commission_percent: number
+          created_at: string
+          id: string
+          mode: string
+          player_count: number
+          pot_amount: number
+          room_id: string
+          winner_id: string | null
+        }
+        Insert: {
+          commission_amount?: number
+          commission_percent?: number
+          created_at?: string
+          id?: string
+          mode: string
+          player_count?: number
+          pot_amount?: number
+          room_id: string
+          winner_id?: string | null
+        }
+        Update: {
+          commission_amount?: number
+          commission_percent?: number
+          created_at?: string
+          id?: string
+          mode?: string
+          player_count?: number
+          pot_amount?: number
+          room_id?: string
+          winner_id?: string | null
+        }
+        Relationships: []
+      }
       coupon_redemptions: {
         Row: {
           amount: number
@@ -527,6 +563,8 @@ export type Database = {
           started_at: string | null
           state: Json
           status: Database["public"]["Enums"]["room_status"]
+          turn_seconds: number
+          turn_started_at: string | null
           updated_at: string
           winner_id: string | null
         }
@@ -545,6 +583,8 @@ export type Database = {
           started_at?: string | null
           state?: Json
           status?: Database["public"]["Enums"]["room_status"]
+          turn_seconds?: number
+          turn_started_at?: string | null
           updated_at?: string
           winner_id?: string | null
         }
@@ -563,6 +603,8 @@ export type Database = {
           started_at?: string | null
           state?: Json
           status?: Database["public"]["Enums"]["room_status"]
+          turn_seconds?: number
+          turn_started_at?: string | null
           updated_at?: string
           winner_id?: string | null
         }
@@ -728,6 +770,7 @@ export type Database = {
           game_id: string
           id: string
           is_blocked: boolean
+          is_bot: boolean
           is_verified: boolean
           language: Database["public"]["Enums"]["app_language"]
           level: number
@@ -745,6 +788,7 @@ export type Database = {
           game_id: string
           id: string
           is_blocked?: boolean
+          is_bot?: boolean
           is_verified?: boolean
           language?: Database["public"]["Enums"]["app_language"]
           level?: number
@@ -762,6 +806,7 @@ export type Database = {
           game_id?: string
           id?: string
           is_blocked?: boolean
+          is_bot?: boolean
           is_verified?: boolean
           language?: Database["public"]["Enums"]["app_language"]
           level?: number
@@ -816,6 +861,69 @@ export type Database = {
           level?: number
           source_deposit_id?: string | null
           source_user_id?: string
+        }
+        Relationships: []
+      }
+      refunds: {
+        Row: {
+          amount: number
+          created_at: string
+          id: string
+          reason: string
+          room_id: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          id?: string
+          reason?: string
+          room_id: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          id?: string
+          reason?: string
+          room_id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      royal_steps_rounds: {
+        Row: {
+          bet: number
+          created_at: string
+          id: string
+          max_steps: number
+          multipliers: number[]
+          payout: number | null
+          status: string
+          step: number
+          user_id: string
+        }
+        Insert: {
+          bet: number
+          created_at?: string
+          id?: string
+          max_steps: number
+          multipliers: number[]
+          payout?: number | null
+          status?: string
+          step?: number
+          user_id: string
+        }
+        Update: {
+          bet?: number
+          created_at?: string
+          id?: string
+          max_steps?: number
+          multipliers?: number[]
+          payout?: number | null
+          status?: string
+          step?: number
+          user_id?: string
         }
         Relationships: []
       }
@@ -946,9 +1054,49 @@ export type Database = {
           },
         ]
       }
+      tournament_matches: {
+        Row: {
+          created_at: string
+          id: string
+          match_no: number
+          player1_id: string | null
+          player2_id: string | null
+          round: number
+          status: string
+          tournament_id: string
+          updated_at: string
+          winner_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          match_no: number
+          player1_id?: string | null
+          player2_id?: string | null
+          round: number
+          status?: string
+          tournament_id: string
+          updated_at?: string
+          winner_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          match_no?: number
+          player1_id?: string | null
+          player2_id?: string | null
+          round?: number
+          status?: string
+          tournament_id?: string
+          updated_at?: string
+          winner_id?: string | null
+        }
+        Relationships: []
+      }
       tournaments: {
         Row: {
           banner_url: string | null
+          bots_enabled: boolean
           created_at: string
           description: string | null
           entry_fee: number
@@ -962,6 +1110,7 @@ export type Database = {
         }
         Insert: {
           banner_url?: string | null
+          bots_enabled?: boolean
           created_at?: string
           description?: string | null
           entry_fee?: number
@@ -975,6 +1124,7 @@ export type Database = {
         }
         Update: {
           banner_url?: string | null
+          bots_enabled?: boolean
           created_at?: string
           description?: string | null
           entry_fee?: number
@@ -998,6 +1148,7 @@ export type Database = {
           created_at: string
           external_txn_id: string | null
           id: string
+          meta: Json | null
           method: Database["public"]["Enums"]["payment_method"]
           processed_at: string | null
           processed_by: string | null
@@ -1018,6 +1169,7 @@ export type Database = {
           created_at?: string
           external_txn_id?: string | null
           id?: string
+          meta?: Json | null
           method?: Database["public"]["Enums"]["payment_method"]
           processed_at?: string | null
           processed_by?: string | null
@@ -1038,6 +1190,7 @@ export type Database = {
           created_at?: string
           external_txn_id?: string | null
           id?: string
+          meta?: Json | null
           method?: Database["public"]["Enums"]["payment_method"]
           processed_at?: string | null
           processed_by?: string | null
@@ -1077,6 +1230,32 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      add_bot_to_room: { Args: { _room_id: string }; Returns: Json }
+      admin_adjust_balance: {
+        Args: {
+          _amount: number
+          _kind: string
+          _note?: string
+          _user_id: string
+        }
+        Returns: Json
+      }
+      admin_get_phone: { Args: { _uid: string }; Returns: string }
+      admin_list_users: {
+        Args: { _limit?: number; _q?: string }
+        Returns: Json
+      }
+      admin_update_user: {
+        Args: {
+          _is_admin?: boolean
+          _is_blocked?: boolean
+          _is_verified?: boolean
+          _user_id: string
+          _username?: string
+        }
+        Returns: Json
+      }
+      check_level_gate: { Args: { _entry_fee: number }; Returns: Json }
       claim_daily_bonus: { Args: never; Returns: Json }
       claim_first_admin: { Args: never; Returns: string }
       finish_solo_game: {
@@ -1090,7 +1269,12 @@ export type Database = {
         }
         Returns: Json
       }
+      fx_play_bet: {
+        Args: { _direction: string; _stake: number }
+        Returns: Json
+      }
       generate_game_id: { Args: never; Returns: string }
+      get_my_phone: { Args: never; Returns: string }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -1100,8 +1284,16 @@ export type Database = {
       }
       purchase_emoji: { Args: { _emoji_id: string }; Returns: Json }
       redeem_coupon: { Args: { _code: string }; Returns: Json }
+      report_match_winner: {
+        Args: { _match_id: string; _winner_id: string }
+        Returns: Json
+      }
+      royal_steps_cashout: { Args: { _id: string }; Returns: Json }
+      royal_steps_start: { Args: { _bet: number }; Returns: Json }
+      royal_steps_step: { Args: { _id: string }; Returns: Json }
       send_chat_message: { Args: { _body: string }; Returns: string }
       spin_wheel: { Args: never; Returns: Json }
+      start_tournament: { Args: { _tid: string }; Returns: Json }
       transfer_balance: {
         Args: { _amount: number; _recipient_game_id: string }
         Returns: Json
@@ -1121,7 +1313,13 @@ export type Database = {
         | "referral_bonus"
         | "announcement"
         | "system"
-      payment_method: "bkash" | "nagad" | "rocket" | "bank" | "system"
+      payment_method:
+        | "bkash"
+        | "nagad"
+        | "rocket"
+        | "bank"
+        | "system"
+        | "fincra"
       room_status: "waiting" | "playing" | "finished" | "cancelled"
       ticket_status: "open" | "pending" | "resolved" | "closed"
       tournament_status: "upcoming" | "live" | "completed" | "cancelled"
@@ -1284,7 +1482,7 @@ export const Constants = {
         "announcement",
         "system",
       ],
-      payment_method: ["bkash", "nagad", "rocket", "bank", "system"],
+      payment_method: ["bkash", "nagad", "rocket", "bank", "system", "fincra"],
       room_status: ["waiting", "playing", "finished", "cancelled"],
       ticket_status: ["open", "pending", "resolved", "closed"],
       tournament_status: ["upcoming", "live", "completed", "cancelled"],
