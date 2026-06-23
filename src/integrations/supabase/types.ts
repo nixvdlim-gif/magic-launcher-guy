@@ -1096,6 +1096,7 @@ export type Database = {
       tournaments: {
         Row: {
           banner_url: string | null
+          bots_enabled: boolean
           created_at: string
           description: string | null
           entry_fee: number
@@ -1109,6 +1110,7 @@ export type Database = {
         }
         Insert: {
           banner_url?: string | null
+          bots_enabled?: boolean
           created_at?: string
           description?: string | null
           entry_fee?: number
@@ -1122,6 +1124,7 @@ export type Database = {
         }
         Update: {
           banner_url?: string | null
+          bots_enabled?: boolean
           created_at?: string
           description?: string | null
           entry_fee?: number
