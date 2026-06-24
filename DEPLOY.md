@@ -28,3 +28,29 @@ bunx wrangler deploy
 ```
 
 The worker name is auto-generated; rename it by editing `dist/server/wrangler.json` after build, or set `nitro.cloudflare.deployConfig` in `vite.config.ts`.
+
+## One-command deploy from this machine
+
+After editing code or adding Supabase migrations, run:
+
+```powershell
+npm run deploy:all -- -Message "Describe your change"
+```
+
+This script does three things in order:
+
+1. Links the Supabase project from `.env` / `supabase/config.toml`.
+2. Runs `supabase db push` so migrations go to Supabase.
+3. Commits and pushes Git changes to `main`, which triggers the Cloudflare Workers deploy workflow.
+
+Use this when only app code changed and no database migration is needed:
+
+```powershell
+npm run deploy:all:no-db -- -Message "Describe your change"
+```
+
+The live build still depends on GitHub Actions secrets. Keep these updated in GitHub repo settings:
+
+- `VITE_SUPABASE_URL`
+- `VITE_SUPABASE_PUBLISHABLE_KEY`
+- `VITE_SUPABASE_PROJECT_ID`

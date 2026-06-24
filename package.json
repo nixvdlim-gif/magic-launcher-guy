@@ -9,7 +9,9 @@
     "build:dev": "vite build --mode development",
     "preview": "vite preview",
     "lint": "eslint .",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "deploy:all": "powershell -ExecutionPolicy Bypass -File scripts/deploy-all.ps1",
+    "deploy:all:no-db": "powershell -ExecutionPolicy Bypass -File scripts/deploy-all.ps1 -SkipSupabase"
   },
   "dependencies": {
     "@cloudflare/vite-plugin": "^0.1.15",
@@ -89,4 +91,3 @@
     "wrangler": "^3.95.0"
   }
 }
-
