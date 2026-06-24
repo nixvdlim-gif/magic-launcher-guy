@@ -1,8 +1,5 @@
-import { defineConfig } from "vite";
-import { cloudflare } from "@cloudflare/vite-plugin";
+import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
 export default defineConfig({
-  plugins: [
-    cloudflare()
-  ],
+  nitro: { preset: "cloudflare-module" },
 });
