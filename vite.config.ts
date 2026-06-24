@@ -1,8 +1,4 @@
 import { defineConfig } from "vite";
-import { cloudflare } from "@cloudflare/vite-plugin";
+import { lovableTanstackConfig } from "@lovable.dev/vite-tanstack-config";
 
-export default defineConfig({
-  plugins: [
-    cloudflare()
-  ],
-});
+export default defineConfig(lovableTanstackConfig());
