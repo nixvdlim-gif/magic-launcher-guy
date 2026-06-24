@@ -87,4 +87,7 @@
     "typescript-eslint": "^8.56.1",
     "vite": "^8.0.16"
   }
+  "scripts": {
+  "build": "bun install && vite build"
+  }
 }
