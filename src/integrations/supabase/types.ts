@@ -17,6 +17,7 @@ export type Database = {
       agents: {
         Row: {
           area: string | null
+          contact_url: string | null
           created_at: string
           id: string
           is_active: boolean
@@ -24,11 +25,11 @@ export type Database = {
           notes: string | null
           phone: string | null
           sort_order: number
-          updated_at: string
           whatsapp: string | null
         }
         Insert: {
           area?: string | null
+          contact_url?: string | null
           created_at?: string
           id?: string
           is_active?: boolean
@@ -36,11 +37,11 @@ export type Database = {
           notes?: string | null
           phone?: string | null
           sort_order?: number
-          updated_at?: string
           whatsapp?: string | null
         }
         Update: {
           area?: string | null
+          contact_url?: string | null
           created_at?: string
           id?: string
           is_active?: boolean
@@ -48,7 +49,6 @@ export type Database = {
           notes?: string | null
           phone?: string | null
           sort_order?: number
-          updated_at?: string
           whatsapp?: string | null
         }
         Relationships: []
@@ -58,19 +58,40 @@ export type Database = {
           key: string
           updated_at: string
           updated_by: string | null
-          value: Json
+          value: Json | null
         }
         Insert: {
           key: string
           updated_at?: string
           updated_by?: string | null
-          value?: Json
+          value?: Json | null
         }
         Update: {
           key?: string
           updated_at?: string
           updated_by?: string | null
-          value?: Json
+          value?: Json | null
+        }
+        Relationships: []
+      }
+      avatars: {
+        Row: {
+          id: string
+          is_active: boolean
+          sort_order: number
+          url: string
+        }
+        Insert: {
+          id?: string
+          is_active?: boolean
+          sort_order?: number
+          url: string
+        }
+        Update: {
+          id?: string
+          is_active?: boolean
+          sort_order?: number
+          url?: string
         }
         Relationships: []
       }
@@ -79,8 +100,8 @@ export type Database = {
           amount: number
           created_at: string
           fee_amount: number
-          fee_percent: number
           id: string
+          note: string | null
           recipient_id: string
           recipient_received: number
           sender_id: string
@@ -89,18 +110,18 @@ export type Database = {
           amount: number
           created_at?: string
           fee_amount?: number
-          fee_percent?: number
           id?: string
+          note?: string | null
           recipient_id: string
-          recipient_received: number
+          recipient_received?: number
           sender_id: string
         }
         Update: {
           amount?: number
           created_at?: string
           fee_amount?: number
-          fee_percent?: number
           id?: string
+          note?: string | null
           recipient_id?: string
           recipient_received?: number
           sender_id?: string
@@ -137,8 +158,7 @@ export type Database = {
           link_url: string | null
           sort_order: number
           subtitle: string | null
-          title: string
-          updated_at: string
+          title: string | null
         }
         Insert: {
           created_at?: string
@@ -148,8 +168,7 @@ export type Database = {
           link_url?: string | null
           sort_order?: number
           subtitle?: string | null
-          title: string
-          updated_at?: string
+          title?: string | null
         }
         Update: {
           created_at?: string
@@ -159,8 +178,7 @@ export type Database = {
           link_url?: string | null
           sort_order?: number
           subtitle?: string | null
-          title?: string
-          updated_at?: string
+          title?: string | null
         }
         Relationships: []
       }
@@ -172,7 +190,6 @@ export type Database = {
           is_active: boolean
           name: string
           skill_level: number
-          updated_at: string
         }
         Insert: {
           avatar_url?: string | null
@@ -181,7 +198,6 @@ export type Database = {
           is_active?: boolean
           name: string
           skill_level?: number
-          updated_at?: string
         }
         Update: {
           avatar_url?: string | null
@@ -190,7 +206,6 @@ export type Database = {
           is_active?: boolean
           name?: string
           skill_level?: number
-          updated_at?: string
         }
         Relationships: []
       }
@@ -201,7 +216,6 @@ export type Database = {
           id: string
           is_deleted: boolean
           is_pinned: boolean
-          is_system: boolean
           user_id: string
         }
         Insert: {
@@ -210,7 +224,6 @@ export type Database = {
           id?: string
           is_deleted?: boolean
           is_pinned?: boolean
-          is_system?: boolean
           user_id: string
         }
         Update: {
@@ -219,78 +232,36 @@ export type Database = {
           id?: string
           is_deleted?: boolean
           is_pinned?: boolean
-          is_system?: boolean
           user_id?: string
         }
         Relationships: []
       }
       commission_ledger: {
         Row: {
+          agent_id: string | null
           commission_amount: number
-          commission_percent: number
           created_at: string
           id: string
-          mode: string
-          player_count: number
-          pot_amount: number
-          room_id: string
-          winner_id: string | null
+          source: string | null
+          user_id: string | null
         }
         Insert: {
-          commission_amount?: number
-          commission_percent?: number
+          agent_id?: string | null
+          commission_amount: number
           created_at?: string
           id?: string
-          mode: string
-          player_count?: number
-          pot_amount?: number
-          room_id: string
-          winner_id?: string | null
+          source?: string | null
+          user_id?: string | null
         }
         Update: {
+          agent_id?: string | null
           commission_amount?: number
-          commission_percent?: number
           created_at?: string
           id?: string
-          mode?: string
-          player_count?: number
-          pot_amount?: number
-          room_id?: string
-          winner_id?: string | null
+          source?: string | null
+          user_id?: string | null
         }
         Relationships: []
-      }
-      coupon_redemptions: {
-        Row: {
-          amount: number
-          coupon_id: string
-          id: string
-          redeemed_at: string
-          user_id: string
-        }
-        Insert: {
-          amount: number
-          coupon_id: string
-          id?: string
-          redeemed_at?: string
-          user_id: string
-        }
-        Update: {
-          amount?: number
-          coupon_id?: string
-          id?: string
-          redeemed_at?: string
-          user_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "coupon_redemptions_coupon_id_fkey"
-            columns: ["coupon_id"]
-            isOneToOne: false
-            referencedRelation: "coupons"
-            referencedColumns: ["id"]
-          },
-        ]
       }
       coupons: {
         Row: {
@@ -298,42 +269,36 @@ export type Database = {
           code: string
           created_at: string
           description: string | null
+          expires_at: string | null
           id: string
           is_active: boolean
           max_uses: number
-          type: Database["public"]["Enums"]["coupon_type"]
-          updated_at: string
+          type: string
           used_count: number
-          valid_from: string
-          valid_until: string | null
         }
         Insert: {
-          amount: number
+          amount?: number
           code: string
           created_at?: string
           description?: string | null
+          expires_at?: string | null
           id?: string
           is_active?: boolean
           max_uses?: number
-          type?: Database["public"]["Enums"]["coupon_type"]
-          updated_at?: string
+          type?: string
           used_count?: number
-          valid_from?: string
-          valid_until?: string | null
         }
         Update: {
           amount?: number
           code?: string
           created_at?: string
           description?: string | null
+          expires_at?: string | null
           id?: string
           is_active?: boolean
           max_uses?: number
-          type?: Database["public"]["Enums"]["coupon_type"]
-          updated_at?: string
+          type?: string
           used_count?: number
-          valid_from?: string
-          valid_until?: string | null
         }
         Relationships: []
       }
@@ -341,15 +306,13 @@ export type Database = {
         Row: {
           amount: number
           claimed_on: string
-          created_at: string
           day_streak: number
           id: string
           user_id: string
         }
         Insert: {
-          amount: number
+          amount?: number
           claimed_on?: string
-          created_at?: string
           day_streak?: number
           id?: string
           user_id: string
@@ -357,7 +320,6 @@ export type Database = {
         Update: {
           amount?: number
           claimed_on?: string
-          created_at?: string
           day_streak?: number
           id?: string
           user_id?: string
@@ -366,25 +328,19 @@ export type Database = {
       }
       emoji_categories: {
         Row: {
-          created_at: string
           id: string
-          is_active: boolean
           name: string
           name_bn: string | null
           sort_order: number
         }
         Insert: {
-          created_at?: string
           id?: string
-          is_active?: boolean
           name: string
           name_bn?: string | null
           sort_order?: number
         }
         Update: {
-          created_at?: string
           id?: string
-          is_active?: boolean
           name?: string
           name_bn?: string | null
           sort_order?: number
@@ -394,7 +350,7 @@ export type Database = {
       emoji_items: {
         Row: {
           category_id: string | null
-          created_at: string
+          emoji: string | null
           emoji_char: string | null
           id: string
           image_url: string | null
@@ -404,11 +360,10 @@ export type Database = {
           name_bn: string | null
           price: number
           sort_order: number
-          use_count: number
         }
         Insert: {
           category_id?: string | null
-          created_at?: string
+          emoji?: string | null
           emoji_char?: string | null
           id?: string
           image_url?: string | null
@@ -418,11 +373,10 @@ export type Database = {
           name_bn?: string | null
           price?: number
           sort_order?: number
-          use_count?: number
         }
         Update: {
           category_id?: string | null
-          created_at?: string
+          emoji?: string | null
           emoji_char?: string | null
           id?: string
           image_url?: string | null
@@ -432,7 +386,6 @@ export type Database = {
           name_bn?: string | null
           price?: number
           sort_order?: number
-          use_count?: number
         }
         Relationships: [
           {
@@ -446,21 +399,18 @@ export type Database = {
       }
       emoji_purchases: {
         Row: {
-          amount_paid: number
           created_at: string
           emoji_id: string
           id: string
           user_id: string
         }
         Insert: {
-          amount_paid: number
           created_at?: string
           emoji_id: string
           id?: string
           user_id: string
         }
         Update: {
-          amount_paid?: number
           created_at?: string
           emoji_id?: string
           id?: string
@@ -479,38 +429,43 @@ export type Database = {
       game_results: {
         Row: {
           created_at: string
-          duration_seconds: number | null
           entry_fee: number
           id: string
-          mode: string
-          player_ids: string[]
+          is_winner: boolean
+          mode: string | null
           prize_awarded: number
-          room_id: string
-          winner_id: string | null
+          room_id: string | null
+          user_id: string
         }
         Insert: {
           created_at?: string
-          duration_seconds?: number | null
           entry_fee?: number
           id?: string
-          mode: string
-          player_ids?: string[]
+          is_winner?: boolean
+          mode?: string | null
           prize_awarded?: number
-          room_id: string
-          winner_id?: string | null
+          room_id?: string | null
+          user_id: string
         }
         Update: {
           created_at?: string
-          duration_seconds?: number | null
           entry_fee?: number
           id?: string
-          mode?: string
-          player_ids?: string[]
+          is_winner?: boolean
+          mode?: string | null
           prize_awarded?: number
-          room_id?: string
-          winner_id?: string | null
+          room_id?: string | null
+          user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "game_results_room_id_fkey"
+            columns: ["room_id"]
+            isOneToOne: false
+            referencedRelation: "game_rooms"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       game_room_players: {
         Row: {
@@ -518,7 +473,7 @@ export type Database = {
           is_bot: boolean
           joined_at: string
           room_id: string
-          seat: number
+          seat: number | null
           user_id: string
         }
         Insert: {
@@ -526,7 +481,7 @@ export type Database = {
           is_bot?: boolean
           joined_at?: string
           room_id: string
-          seat: number
+          seat?: number | null
           user_id: string
         }
         Update: {
@@ -534,7 +489,7 @@ export type Database = {
           is_bot?: boolean
           joined_at?: string
           room_id?: string
-          seat?: number
+          seat?: number | null
           user_id?: string
         }
         Relationships: [
@@ -549,64 +504,64 @@ export type Database = {
       }
       game_rooms: {
         Row: {
-          code: string
+          code: string | null
           created_at: string
           current_players: number
           current_turn: number
           ended_at: string | null
           entry_fee: number
-          host_id: string
+          host_id: string | null
           id: string
+          is_private: boolean
           max_players: number
           mode: string
           prize_pool: number
           started_at: string | null
           state: Json
-          status: Database["public"]["Enums"]["room_status"]
+          status: string
           turn_seconds: number
           turn_started_at: string | null
           updated_at: string
-          winner_id: string | null
         }
         Insert: {
-          code: string
+          code?: string | null
           created_at?: string
           current_players?: number
           current_turn?: number
           ended_at?: string | null
           entry_fee?: number
-          host_id: string
+          host_id?: string | null
           id?: string
+          is_private?: boolean
           max_players?: number
           mode: string
           prize_pool?: number
           started_at?: string | null
           state?: Json
-          status?: Database["public"]["Enums"]["room_status"]
+          status?: string
           turn_seconds?: number
           turn_started_at?: string | null
           updated_at?: string
-          winner_id?: string | null
         }
         Update: {
-          code?: string
+          code?: string | null
           created_at?: string
           current_players?: number
           current_turn?: number
           ended_at?: string | null
           entry_fee?: number
-          host_id?: string
+          host_id?: string | null
           id?: string
+          is_private?: boolean
           max_players?: number
           mode?: string
           prize_pool?: number
           started_at?: string | null
           state?: Json
-          status?: Database["public"]["Enums"]["room_status"]
+          status?: string
           turn_seconds?: number
           turn_started_at?: string | null
           updated_at?: string
-          winner_id?: string | null
         }
         Relationships: []
       }
@@ -615,11 +570,15 @@ export type Database = {
           admin_note: string | null
           created_at: string
           doc_image_url: string | null
-          doc_number: string
-          doc_type: string
+          doc_number: string | null
+          doc_type: string | null
+          document_url: string | null
+          full_name: string | null
           id: string
+          notes: string | null
+          reviewed_by: string | null
           selfie_url: string | null
-          status: Database["public"]["Enums"]["kyc_status"]
+          status: string
           updated_at: string
           user_id: string
         }
@@ -627,11 +586,15 @@ export type Database = {
           admin_note?: string | null
           created_at?: string
           doc_image_url?: string | null
-          doc_number: string
-          doc_type: string
+          doc_number?: string | null
+          doc_type?: string | null
+          document_url?: string | null
+          full_name?: string | null
           id?: string
+          notes?: string | null
+          reviewed_by?: string | null
           selfie_url?: string | null
-          status?: Database["public"]["Enums"]["kyc_status"]
+          status?: string
           updated_at?: string
           user_id: string
         }
@@ -639,11 +602,15 @@ export type Database = {
           admin_note?: string | null
           created_at?: string
           doc_image_url?: string | null
-          doc_number?: string
-          doc_type?: string
+          doc_number?: string | null
+          doc_type?: string | null
+          document_url?: string | null
+          full_name?: string | null
           id?: string
+          notes?: string | null
+          reviewed_by?: string | null
           selfie_url?: string | null
-          status?: Database["public"]["Enums"]["kyc_status"]
+          status?: string
           updated_at?: string
           user_id?: string
         }
@@ -655,83 +622,101 @@ export type Database = {
           created_at: string
           id: string
           is_read: boolean
-          link: string | null
           title: string
-          type: Database["public"]["Enums"]["notification_type"]
-          user_id: string
+          type: string | null
+          user_id: string | null
         }
         Insert: {
           body?: string | null
           created_at?: string
           id?: string
           is_read?: boolean
-          link?: string | null
           title: string
-          type?: Database["public"]["Enums"]["notification_type"]
-          user_id: string
+          type?: string | null
+          user_id?: string | null
         }
         Update: {
           body?: string | null
           created_at?: string
           id?: string
           is_read?: boolean
-          link?: string | null
           title?: string
-          type?: Database["public"]["Enums"]["notification_type"]
-          user_id?: string
+          type?: string | null
+          user_id?: string | null
         }
         Relationships: []
       }
       payment_settings: {
         Row: {
+          account_name: string | null
+          account_number: string | null
+          bank_branch: string | null
+          bank_name: string | null
           color: string | null
+          created_at: string
           deposit_enabled: boolean
-          display_name: string
+          display_name: string | null
           icon: string | null
           id: string
           instructions: string | null
+          instructions_image_url: string | null
+          is_active: boolean
+          logo_url: string | null
           max_deposit: number
           max_withdraw: number
-          method: Database["public"]["Enums"]["payment_method"]
+          method: string
           min_deposit: number
           min_withdraw: number
           receive_number: string | null
           sort_order: number
-          updated_at: string
           withdraw_enabled: boolean
         }
         Insert: {
+          account_name?: string | null
+          account_number?: string | null
+          bank_branch?: string | null
+          bank_name?: string | null
           color?: string | null
+          created_at?: string
           deposit_enabled?: boolean
-          display_name: string
+          display_name?: string | null
           icon?: string | null
           id?: string
           instructions?: string | null
+          instructions_image_url?: string | null
+          is_active?: boolean
+          logo_url?: string | null
           max_deposit?: number
           max_withdraw?: number
-          method: Database["public"]["Enums"]["payment_method"]
+          method: string
           min_deposit?: number
           min_withdraw?: number
           receive_number?: string | null
           sort_order?: number
-          updated_at?: string
           withdraw_enabled?: boolean
         }
         Update: {
+          account_name?: string | null
+          account_number?: string | null
+          bank_branch?: string | null
+          bank_name?: string | null
           color?: string | null
+          created_at?: string
           deposit_enabled?: boolean
-          display_name?: string
+          display_name?: string | null
           icon?: string | null
           id?: string
           instructions?: string | null
+          instructions_image_url?: string | null
+          is_active?: boolean
+          logo_url?: string | null
           max_deposit?: number
           max_withdraw?: number
-          method?: Database["public"]["Enums"]["payment_method"]
+          method?: string
           min_deposit?: number
           min_withdraw?: number
           receive_number?: string | null
           sort_order?: number
-          updated_at?: string
           withdraw_enabled?: boolean
         }
         Relationships: []
@@ -741,7 +726,6 @@ export type Database = {
           action: string
           created_at: string
           id: string
-          ip: string | null
           phone: string
           status: string
         }
@@ -749,7 +733,6 @@ export type Database = {
           action: string
           created_at?: string
           id?: string
-          ip?: string | null
           phone: string
           status: string
         }
@@ -757,7 +740,6 @@ export type Database = {
           action?: string
           created_at?: string
           id?: string
-          ip?: string | null
           phone?: string
           status?: string
         }
@@ -767,12 +749,12 @@ export type Database = {
         Row: {
           avatar_url: string | null
           created_at: string
-          game_id: string
+          game_id: string | null
           id: string
           is_blocked: boolean
           is_bot: boolean
           is_verified: boolean
-          language: Database["public"]["Enums"]["app_language"]
+          language: string
           level: number
           phone: string | null
           referred_by: string | null
@@ -780,17 +762,17 @@ export type Database = {
           total_losses: number
           total_wins: number
           updated_at: string
-          username: string
+          username: string | null
         }
         Insert: {
           avatar_url?: string | null
           created_at?: string
-          game_id: string
+          game_id?: string | null
           id: string
           is_blocked?: boolean
           is_bot?: boolean
           is_verified?: boolean
-          language?: Database["public"]["Enums"]["app_language"]
+          language?: string
           level?: number
           phone?: string | null
           referred_by?: string | null
@@ -798,17 +780,17 @@ export type Database = {
           total_losses?: number
           total_wins?: number
           updated_at?: string
-          username: string
+          username?: string | null
         }
         Update: {
           avatar_url?: string | null
           created_at?: string
-          game_id?: string
+          game_id?: string | null
           id?: string
           is_blocked?: boolean
           is_bot?: boolean
           is_verified?: boolean
-          language?: Database["public"]["Enums"]["app_language"]
+          language?: string
           level?: number
           phone?: string | null
           referred_by?: string | null
@@ -816,7 +798,7 @@ export type Database = {
           total_losses?: number
           total_wins?: number
           updated_at?: string
-          username?: string
+          username?: string | null
         }
         Relationships: [
           {
@@ -830,37 +812,28 @@ export type Database = {
       }
       referral_earnings: {
         Row: {
-          commission_earned: number
-          commission_percent: number
+          amount: number
           created_at: string
-          deposit_amount: number
           earner_id: string
           id: string
-          level: number
-          source_deposit_id: string | null
-          source_user_id: string
+          referred_id: string | null
+          source: string | null
         }
         Insert: {
-          commission_earned: number
-          commission_percent: number
+          amount: number
           created_at?: string
-          deposit_amount: number
           earner_id: string
           id?: string
-          level: number
-          source_deposit_id?: string | null
-          source_user_id: string
+          referred_id?: string | null
+          source?: string | null
         }
         Update: {
-          commission_earned?: number
-          commission_percent?: number
+          amount?: number
           created_at?: string
-          deposit_amount?: number
           earner_id?: string
           id?: string
-          level?: number
-          source_deposit_id?: string | null
-          source_user_id?: string
+          referred_id?: string | null
+          source?: string | null
         }
         Relationships: []
       }
@@ -869,60 +842,77 @@ export type Database = {
           amount: number
           created_at: string
           id: string
-          reason: string
-          room_id: string
-          user_id: string
+          reason: string | null
+          status: string
+          transaction_id: string | null
+          user_id: string | null
         }
         Insert: {
           amount: number
           created_at?: string
           id?: string
-          reason?: string
-          room_id: string
-          user_id: string
+          reason?: string | null
+          status?: string
+          transaction_id?: string | null
+          user_id?: string | null
         }
         Update: {
           amount?: number
           created_at?: string
           id?: string
-          reason?: string
-          room_id?: string
-          user_id?: string
+          reason?: string | null
+          status?: string
+          transaction_id?: string | null
+          user_id?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "refunds_transaction_id_fkey"
+            columns: ["transaction_id"]
+            isOneToOne: false
+            referencedRelation: "transactions"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       royal_steps_rounds: {
         Row: {
           bet: number
           created_at: string
+          current_step: number
+          ended_at: string | null
           id: string
           max_steps: number
-          multipliers: number[]
-          payout: number | null
+          multipliers: Json
+          prize: number
           status: string
-          step: number
+          trap_step: number
           user_id: string
         }
         Insert: {
           bet: number
           created_at?: string
+          current_step?: number
+          ended_at?: string | null
           id?: string
           max_steps: number
-          multipliers: number[]
-          payout?: number | null
+          multipliers: Json
+          prize?: number
           status?: string
-          step?: number
+          trap_step: number
           user_id: string
         }
         Update: {
           bet?: number
           created_at?: string
+          current_step?: number
+          ended_at?: string | null
           id?: string
           max_steps?: number
-          multipliers?: number[]
-          payout?: number | null
+          multipliers?: Json
+          prize?: number
           status?: string
-          step?: number
+          trap_step?: number
           user_id?: string
         }
         Relationships: []
@@ -932,21 +922,21 @@ export type Database = {
           created_at: string
           id: string
           reward_amount: number
-          reward_label: string
+          reward_label: string | null
           user_id: string
         }
         Insert: {
           created_at?: string
           id?: string
-          reward_amount: number
-          reward_label: string
+          reward_amount?: number
+          reward_label?: string | null
           user_id: string
         }
         Update: {
           created_at?: string
           id?: string
           reward_amount?: number
-          reward_label?: string
+          reward_label?: string | null
           user_id?: string
         }
         Relationships: []
@@ -957,7 +947,7 @@ export type Database = {
           created_at: string
           id: string
           is_admin: boolean
-          sender_id: string
+          sender_id: string | null
           ticket_id: string
         }
         Insert: {
@@ -965,7 +955,7 @@ export type Database = {
           created_at?: string
           id?: string
           is_admin?: boolean
-          sender_id: string
+          sender_id?: string | null
           ticket_id: string
         }
         Update: {
@@ -973,7 +963,7 @@ export type Database = {
           created_at?: string
           id?: string
           is_admin?: boolean
-          sender_id?: string
+          sender_id?: string | null
           ticket_id?: string
         }
         Relationships: [
@@ -988,39 +978,37 @@ export type Database = {
       }
       support_tickets: {
         Row: {
-          category: string
+          category: string | null
           created_at: string
           id: string
           last_message_at: string
-          status: Database["public"]["Enums"]["ticket_status"]
+          status: string
           subject: string
-          updated_at: string
           user_id: string
         }
         Insert: {
-          category?: string
+          category?: string | null
           created_at?: string
           id?: string
           last_message_at?: string
-          status?: Database["public"]["Enums"]["ticket_status"]
+          status?: string
           subject: string
-          updated_at?: string
           user_id: string
         }
         Update: {
-          category?: string
+          category?: string | null
           created_at?: string
           id?: string
           last_message_at?: string
-          status?: Database["public"]["Enums"]["ticket_status"]
+          status?: string
           subject?: string
-          updated_at?: string
           user_id?: string
         }
         Relationships: []
       }
       tournament_entries: {
         Row: {
+          created_at: string
           id: string
           joined_at: string
           placement: number | null
@@ -1029,6 +1017,7 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          created_at?: string
           id?: string
           joined_at?: string
           placement?: number | null
@@ -1037,6 +1026,7 @@ export type Database = {
           user_id: string
         }
         Update: {
+          created_at?: string
           id?: string
           joined_at?: string
           placement?: number | null
@@ -1064,19 +1054,17 @@ export type Database = {
           round: number
           status: string
           tournament_id: string
-          updated_at: string
           winner_id: string | null
         }
         Insert: {
           created_at?: string
           id?: string
-          match_no: number
+          match_no?: number
           player1_id?: string | null
           player2_id?: string | null
-          round: number
+          round?: number
           status?: string
           tournament_id: string
-          updated_at?: string
           winner_id?: string | null
         }
         Update: {
@@ -1088,10 +1076,17 @@ export type Database = {
           round?: number
           status?: string
           tournament_id?: string
-          updated_at?: string
           winner_id?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "tournament_matches_tournament_id_fkey"
+            columns: ["tournament_id"]
+            isOneToOne: false
+            referencedRelation: "tournaments"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       tournaments: {
         Row: {
@@ -1099,42 +1094,42 @@ export type Database = {
           bots_enabled: boolean
           created_at: string
           description: string | null
+          end_at: string | null
           entry_fee: number
           id: string
           max_players: number
           name: string
           prize_pool: number
           start_at: string
-          status: Database["public"]["Enums"]["tournament_status"]
-          updated_at: string
+          status: string
         }
         Insert: {
           banner_url?: string | null
           bots_enabled?: boolean
           created_at?: string
           description?: string | null
+          end_at?: string | null
           entry_fee?: number
           id?: string
           max_players?: number
           name: string
           prize_pool?: number
-          start_at: string
-          status?: Database["public"]["Enums"]["tournament_status"]
-          updated_at?: string
+          start_at?: string
+          status?: string
         }
         Update: {
           banner_url?: string | null
           bots_enabled?: boolean
           created_at?: string
           description?: string | null
+          end_at?: string | null
           entry_fee?: number
           id?: string
           max_players?: number
           name?: string
           prize_pool?: number
           start_at?: string
-          status?: Database["public"]["Enums"]["tournament_status"]
-          updated_at?: string
+          status?: string
         }
         Relationships: []
       }
@@ -1149,15 +1144,13 @@ export type Database = {
           external_txn_id: string | null
           id: string
           meta: Json | null
-          method: Database["public"]["Enums"]["payment_method"]
+          method: string | null
           processed_at: string | null
-          processed_by: string | null
           receiver_number: string | null
           reference: string | null
           sender_number: string | null
-          status: Database["public"]["Enums"]["txn_status"]
-          type: Database["public"]["Enums"]["txn_type"]
-          updated_at: string
+          status: string
+          type: string
           user_id: string
         }
         Insert: {
@@ -1170,15 +1163,13 @@ export type Database = {
           external_txn_id?: string | null
           id?: string
           meta?: Json | null
-          method?: Database["public"]["Enums"]["payment_method"]
+          method?: string | null
           processed_at?: string | null
-          processed_by?: string | null
           receiver_number?: string | null
           reference?: string | null
           sender_number?: string | null
-          status?: Database["public"]["Enums"]["txn_status"]
-          type: Database["public"]["Enums"]["txn_type"]
-          updated_at?: string
+          status?: string
+          type: string
           user_id: string
         }
         Update: {
@@ -1191,15 +1182,13 @@ export type Database = {
           external_txn_id?: string | null
           id?: string
           meta?: Json | null
-          method?: Database["public"]["Enums"]["payment_method"]
+          method?: string | null
           processed_at?: string | null
-          processed_by?: string | null
           receiver_number?: string | null
           reference?: string | null
           sender_number?: string | null
-          status?: Database["public"]["Enums"]["txn_status"]
-          type?: Database["public"]["Enums"]["txn_type"]
-          updated_at?: string
+          status?: string
+          type?: string
           user_id?: string
         }
         Relationships: []
@@ -1230,6 +1219,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      _royal_steps_config: { Args: never; Returns: Json }
       add_bot_to_room: { Args: { _room_id: string }; Returns: Json }
       admin_adjust_balance: {
         Args: {
@@ -1240,9 +1230,28 @@ export type Database = {
         }
         Returns: Json
       }
-      admin_get_phone: { Args: { _uid: string }; Returns: string }
       admin_list_users: {
         Args: { _limit?: number; _q?: string }
+        Returns: {
+          created_at: string
+          deposit_balance: number
+          email: string
+          game_id: string
+          id: string
+          is_blocked: boolean
+          is_verified: boolean
+          level: number
+          phone: string
+          roles: string[]
+          total_games: number
+          total_losses: number
+          total_wins: number
+          username: string
+          winnings_balance: number
+        }[]
+      }
+      admin_process_transaction: {
+        Args: { _action: string; _txn_id: string }
         Returns: Json
       }
       admin_update_user: {
@@ -1255,25 +1264,53 @@ export type Database = {
         }
         Returns: Json
       }
-      check_level_gate: { Args: { _entry_fee: number }; Returns: Json }
-      claim_daily_bonus: { Args: never; Returns: Json }
-      claim_first_admin: { Args: never; Returns: string }
-      finish_solo_game: {
-        Args: {
-          _duration?: number
-          _entry_fee: number
-          _mode: string
-          _prize: number
-          _room_id: string
-          _won: boolean
-        }
+      advance_bye_winners: { Args: { _tid: string }; Returns: undefined }
+      auto_advance_bot_matches: { Args: { _tid: string }; Returns: Json }
+      auto_start_due_tournaments: { Args: never; Returns: Json }
+      auto_timeout_turn: { Args: { _room_id: string }; Returns: Json }
+      broadcast_notification: {
+        Args: { _body: string; _title: string; _type?: string }
         Returns: Json
       }
+      claim_daily_bonus: { Args: never; Returns: Json }
+      claim_first_admin: { Args: never; Returns: string }
+      create_friend_room: {
+        Args: { _entry_fee: number; _max_players: number; _mode: string }
+        Returns: Json
+      }
+      create_match_with_bots: {
+        Args: { _entry_fee: number; _mode: string; _players: number }
+        Returns: Json
+      }
+      enqueue_matchmaking: {
+        Args: { _entry_fee: number; _mode: string }
+        Returns: Json
+      }
+      fill_tournament_with_bots: { Args: { _tid: string }; Returns: number }
+      finish_multi_game: {
+        Args: { _room_id: string; _winner_id: string }
+        Returns: Json
+      }
+      finish_solo_game:
+        | {
+            Args: {
+              _duration: number
+              _entry_fee: number
+              _mode: string
+              _prize: number
+              _room_id: string
+              _won: boolean
+            }
+            Returns: Json
+          }
+        | {
+            Args: { _entry_fee?: number; _room_id: string; _won: boolean }
+            Returns: Json
+          }
       fx_play_bet: {
         Args: { _direction: string; _stake: number }
         Returns: Json
       }
-      generate_game_id: { Args: never; Returns: string }
       get_my_phone: { Args: never; Returns: string }
       has_role: {
         Args: {
@@ -1282,8 +1319,11 @@ export type Database = {
         }
         Returns: boolean
       }
+      join_friend_room: { Args: { _code: string }; Returns: Json }
+      leave_matchmaking: { Args: never; Returns: Json }
       purchase_emoji: { Args: { _emoji_id: string }; Returns: Json }
       redeem_coupon: { Args: { _code: string }; Returns: Json }
+      remove_bots_from_tournament: { Args: { _tid: string }; Returns: Json }
       report_match_winner: {
         Args: { _match_id: string; _winner_id: string }
         Returns: Json
@@ -1291,56 +1331,21 @@ export type Database = {
       royal_steps_cashout: { Args: { _id: string }; Returns: Json }
       royal_steps_start: { Args: { _bet: number }; Returns: Json }
       royal_steps_step: { Args: { _id: string }; Returns: Json }
-      send_chat_message: { Args: { _body: string }; Returns: string }
+      send_chat_message: { Args: { _body: string }; Returns: Json }
       spin_wheel: { Args: never; Returns: Json }
       start_tournament: { Args: { _tid: string }; Returns: Json }
+      start_tournament_admin: { Args: { _tid: string }; Returns: Json }
       transfer_balance: {
         Args: { _amount: number; _recipient_game_id: string }
         Returns: Json
       }
+      update_turn_timer: {
+        Args: { _room_id: string; _turn: number }
+        Returns: Json
+      }
     }
     Enums: {
-      app_language: "bn" | "en"
-      app_role: "player" | "admin" | "agent" | "support"
-      coupon_type: "cash" | "deposit_bonus" | "spin"
-      kyc_status: "pending" | "approved" | "rejected"
-      notification_type:
-        | "deposit_approved"
-        | "deposit_rejected"
-        | "withdraw_approved"
-        | "withdraw_rejected"
-        | "transfer_received"
-        | "referral_bonus"
-        | "announcement"
-        | "system"
-      payment_method:
-        | "bkash"
-        | "nagad"
-        | "rocket"
-        | "bank"
-        | "system"
-        | "fincra"
-      room_status: "waiting" | "playing" | "finished" | "cancelled"
-      ticket_status: "open" | "pending" | "resolved" | "closed"
-      tournament_status: "upcoming" | "live" | "completed" | "cancelled"
-      txn_status:
-        | "pending"
-        | "approved"
-        | "rejected"
-        | "completed"
-        | "cancelled"
-      txn_type:
-        | "deposit"
-        | "withdraw"
-        | "game_entry"
-        | "game_win"
-        | "refund"
-        | "referral_bonus"
-        | "admin_adjust"
-        | "transfer_in"
-        | "transfer_out"
-        | "bonus"
-        | "prize"
+      app_role: "admin" | "agent" | "support" | "player"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -1468,38 +1473,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_language: ["bn", "en"],
-      app_role: ["player", "admin", "agent", "support"],
-      coupon_type: ["cash", "deposit_bonus", "spin"],
-      kyc_status: ["pending", "approved", "rejected"],
-      notification_type: [
-        "deposit_approved",
-        "deposit_rejected",
-        "withdraw_approved",
-        "withdraw_rejected",
-        "transfer_received",
-        "referral_bonus",
-        "announcement",
-        "system",
-      ],
-      payment_method: ["bkash", "nagad", "rocket", "bank", "system", "fincra"],
-      room_status: ["waiting", "playing", "finished", "cancelled"],
-      ticket_status: ["open", "pending", "resolved", "closed"],
-      tournament_status: ["upcoming", "live", "completed", "cancelled"],
-      txn_status: ["pending", "approved", "rejected", "completed", "cancelled"],
-      txn_type: [
-        "deposit",
-        "withdraw",
-        "game_entry",
-        "game_win",
-        "refund",
-        "referral_bonus",
-        "admin_adjust",
-        "transfer_in",
-        "transfer_out",
-        "bonus",
-        "prize",
-      ],
+      app_role: ["admin", "agent", "support", "player"],
     },
   },
 } as const

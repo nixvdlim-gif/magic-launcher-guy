@@ -99,11 +99,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "ChaleBid — Play, Win, Earn" },
-      { name: "description", content: "ChaleBid — multiplayer Ludo gaming. Play, win, and withdraw." },
+      { title: "ChaleBid â€” Play, Win, Earn" },
+      { name: "description", content: "ChaleBid â€” multiplayer Ludo gaming. Play, win, and withdraw." },
       { name: "author", content: "ChaleBid" },
-      { property: "og:title", content: "ChaleBid — Play, Win, Earn" },
-      { property: "og:description", content: "ChaleBid — multiplayer Ludo gaming. Play, win, and withdraw." },
+      { property: "og:title", content: "ChaleBid â€” Play, Win, Earn" },
+      { property: "og:description", content: "ChaleBid â€” multiplayer Ludo gaming. Play, win, and withdraw." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
@@ -111,8 +111,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "apple-mobile-web-app-capable", content: "yes" },
       { name: "apple-mobile-web-app-status-bar-style", content: "black-translucent" },
       { name: "apple-mobile-web-app-title", content: "ChaleBid" },
-      { name: "twitter:title", content: "ChaleBid — Play, Win, Earn" },
-      { name: "twitter:description", content: "ChaleBid — multiplayer Ludo gaming. Play, win, and withdraw." },
+      { name: "twitter:title", content: "ChaleBid â€” Play, Win, Earn" },
+      { name: "twitter:description", content: "ChaleBid â€” multiplayer Ludo gaming. Play, win, and withdraw." },
       { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/4a420a89-3e8f-45ee-b87a-d3df21e3d391/id-preview-6bb47def--609c12a2-31b5-4856-9896-5aa311147d37.lovable.app-1778859937084.png" },
       { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/4a420a89-3e8f-45ee-b87a-d3df21e3d391/id-preview-6bb47def--609c12a2-31b5-4856-9896-5aa311147d37.lovable.app-1778859937084.png" },
     ],
@@ -211,15 +211,44 @@ function ServiceWorkerMount() {
     if (typeof window === "undefined") return;
     if (!("serviceWorker" in navigator)) return;
 
-    navigator.serviceWorker.getRegistrations().then((regs) => {
-      regs.forEach((registration) => registration.unregister());
-    });
-
-    if ("caches" in window) {
-      caches.keys().then((keys) => {
-        keys.forEach((key) => caches.delete(key));
-      });
+    // Detect preview / iframe contexts â€” never register SW there
+    const host = window.location.hostname;
+    const isPreview =
+      host.includes("id-preview--") ||
+      host.includes("lovableproject.com") ||
+      host.includes("lovable.dev") ||
+      host === "localhost" ||
+      host.startsWith("127.");
+    let isIframe = false;
+    try {
+      isIframe = window.self !== window.top;
+    } catch {
+      isIframe = true;
     }
+
+    if (isPreview || isIframe) {
+      // Clean up any previously-registered SW in preview contexts
+      navigator.serviceWorker.getRegistrations().then((regs) => {
+        regs.forEach((r) => r.unregister());
+      });
+      return;
+    }
+
+    // Production: register and auto-update on new versions
+    navigator.serviceWorker
+      .register("/sw.js", { scope: "/" })
+      .then((reg) => {
+        reg.addEventListener("updatefound", () => {
+          const nw = reg.installing;
+          if (!nw) return;
+          nw.addEventListener("statechange", () => {
+            if (nw.state === "activated") {
+              // New SW took control â€” silent; next navigation will be fresh
+            }
+          });
+        });
+      })
+      .catch(() => {});
   }, []);
   return null;
 }

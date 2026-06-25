@@ -1277,7 +1277,7 @@ function UsersTab() {
     const { data, error } = await supabase.rpc("admin_list_users", { _q: q.trim() || undefined, _limit: 100 });
     if (error) return toast.error(error.message);
     setRows(
-      ((data as any) ?? []).map((u: any) => ({
+      (data ?? []).map((u: any) => ({
         ...u,
         balance: { deposit_balance: u.deposit_balance, winnings_balance: u.winnings_balance },
       })),

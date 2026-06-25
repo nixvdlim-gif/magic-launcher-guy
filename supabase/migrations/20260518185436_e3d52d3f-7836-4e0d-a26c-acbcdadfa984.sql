@@ -1,0 +1,1 @@
+INSERT INTO public.app_settings(key, value) VALUES ('currency', '{"symbol":"৳","code":"BDT"}'::jsonb) ON CONFLICT (key) DO NOTHING;

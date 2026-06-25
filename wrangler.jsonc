@@ -1,0 +1,17 @@
+{
+    "$schema":  "node_modules/wrangler/config-schema.json",
+    "name":  "nixvdlim-gif-magic-launcher-guy",
+    "compatibility_date":  "2025-09-24",
+    "compatibility_flags":  [
+                                "nodejs_compat"
+                            ],
+    "main":  "dist/server/server.js",
+    "assets":  {
+                   "directory":  "dist/client"
+               },
+    "vars":  {
+                 "SUPABASE_URL":  "https://onpxqvclceahazyhxhtw.supabase.co",
+                 "SUPABASE_PUBLISHABLE_KEY":  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9ucHhxdmNsY2VhaGF6eWh4aHR3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkwNzM4MjEsImV4cCI6MjA5NDY0OTgyMX0.OJ3ttlArKHb-U-iR0vrokkzr6oBnRXJl3ty0plnb8_M"
+             },
+    "keep_vars":  true
+}
