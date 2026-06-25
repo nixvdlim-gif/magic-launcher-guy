@@ -4,7 +4,7 @@
 //  - Static assets (JS/CSS/fonts/images): CacheFirst (instant on repeat visit)
 //  - On new SW version: skipWaiting + clients.claim → auto-update
 
-const VERSION = "v1";
+const VERSION = "v2-20260625";
 const STATIC_CACHE = `static-${VERSION}`;
 const HTML_CACHE = `html-${VERSION}`;
 
