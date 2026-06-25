@@ -211,45 +211,15 @@ function ServiceWorkerMount() {
     if (typeof window === "undefined") return;
     if (!("serviceWorker" in navigator)) return;
 
-    // Detect preview / iframe contexts — never register SW there
-    const host = window.location.hostname;
-    const isPreview =
-      host.includes("id-preview--") ||
-      host.includes("lovableproject.com") ||
-      host.includes("lovable.dev") ||
-      host === "localhost" ||
-      host.startsWith("127.");
-    let isIframe = false;
-    try {
-      isIframe = window.self !== window.top;
-    } catch {
-      isIframe = true;
-    }
+    navigator.serviceWorker.getRegistrations().then((regs) => {
+      regs.forEach((registration) => registration.unregister());
+    });
 
-    if (isPreview || isIframe) {
-      // Clean up any previously-registered SW in preview contexts
-      navigator.serviceWorker.getRegistrations().then((regs) => {
-        regs.forEach((r) => r.unregister());
+    if ("caches" in window) {
+      caches.keys().then((keys) => {
+        keys.forEach((key) => caches.delete(key));
       });
-      return;
     }
-
-    // Production: register and auto-update on new versions
-    navigator.serviceWorker
-      .register("/sw.js", { scope: "/" })
-      .then((reg) => {
-        reg.addEventListener("updatefound", () => {
-          const nw = reg.installing;
-          if (!nw) return;
-          nw.addEventListener("statechange", () => {
-            if (nw.state === "activated") {
-              // New SW took control — silent; next navigation will be fresh
-            }
-          });
-        });
-      })
-      .catch(() => {});
   }, []);
   return null;
 }
-
