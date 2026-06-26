@@ -1,6 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
-import { timingSafeEqual } from "crypto";
+function safeEqual(a: string, b: string) {
+  if (a.length !== b.length) return false;
+  let mismatch = 0;
+  for (let i = 0; i < a.length; i += 1) {
+    mismatch |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  }
+  return mismatch === 0;
+}
 
 export const Route = createFileRoute("/api/public/hooks/cleanup-rooms")({
   server: {
@@ -14,11 +21,7 @@ export const Route = createFileRoute("/api/public/hooks/cleanup-rooms")({
           .maybeSingle();
         const expected = ((row?.value as any)?.cron_secret as string | undefined) ?? "";
         const provided = request.headers.get("x-cron-secret") ?? "";
-        if (
-          !expected ||
-          provided.length !== expected.length ||
-          !timingSafeEqual(Buffer.from(provided), Buffer.from(expected))
-        ) {
+        if (!expected || !safeEqual(provided, expected)) {
           return new Response("Unauthorized", { status: 401 });
         }
 

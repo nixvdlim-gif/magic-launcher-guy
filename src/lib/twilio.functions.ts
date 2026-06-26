@@ -25,6 +25,10 @@ async function getTwilioConfig(): Promise<TwilioCfg> {
   return cfg as TwilioCfg;
 }
 
+function basicAuth(username: string, password: string) {
+  return btoa(`${username}:${password}`);
+}
+
 function normalizePhone(input: string): string {
   const trimmed = input.trim().replace(/[\s-()]/g, "");
   if (trimmed.startsWith("+")) return trimmed;
@@ -62,7 +66,7 @@ export const sendPhoneOtp = createServerFn({ method: "POST" })
       throw new Error("Too many requests. Please wait a minute.");
     }
 
-    const auth = Buffer.from(`${cfg.account_sid}:${cfg.auth_token}`).toString("base64");
+    const auth = basicAuth(cfg.account_sid, cfg.auth_token);
     const res = await fetch(
       `https://verify.twilio.com/v2/Services/${cfg.verify_service_sid}/Verifications`,
       {
@@ -96,7 +100,7 @@ export const verifyPhoneOtp = createServerFn({ method: "POST" })
   .handler(async ({ data, context }) => {
     const cfg = await getTwilioConfig();
     const phone = normalizePhone(data.phone);
-    const auth = Buffer.from(`${cfg.account_sid}:${cfg.auth_token}`).toString("base64");
+    const auth = basicAuth(cfg.account_sid, cfg.auth_token);
 
     const res = await fetch(
       `https://verify.twilio.com/v2/Services/${cfg.verify_service_sid}/VerificationCheck`,
