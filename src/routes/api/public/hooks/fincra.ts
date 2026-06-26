@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-// Fincra webhook handler — verifies HMAC SHA512 signature with secret_key
+// Fincra webhook handler â€” verifies HMAC SHA512 signature with secret_key
 // Header: "signature" = HMAC-SHA512(raw_body, secret_key) hex
 
 export const Route = createFileRoute("/api/public/hooks/fincra")({
@@ -33,16 +33,8 @@ export const Route = createFileRoute("/api/public/hooks/fincra")({
         if (!verifyKey) {
           return json({ ok: false, error: "webhook not configured" }, 503);
         }
-
-        const { createHmac, timingSafeEqual } = await import("crypto");
-        const expected = createHmac("sha512", verifyKey).update(raw).digest("hex");
-        try {
-          const a = Buffer.from(signature);
-          const b = Buffer.from(expected);
-          if (a.length !== b.length || !timingSafeEqual(a, b)) {
-            return json({ ok: false, error: "invalid signature" }, 401);
-          }
-        } catch {
+        const expected = await hmacSha512Hex(verifyKey, raw);
+        if (!safeEqualHex(signature, expected)) {
           return json({ ok: false, error: "invalid signature" }, 401);
         }
 
@@ -131,4 +123,29 @@ function json(body: unknown, status = 200) {
     status,
     headers: { "Content-Type": "application/json" },
   });
+}
+async function hmacSha512Hex(secret: string, message: string) {
+  const enc = new TextEncoder();
+  const key = await crypto.subtle.importKey(
+    "raw",
+    enc.encode(secret),
+    { name: "HMAC", hash: "SHA-512" },
+    false,
+    ["sign"],
+  );
+  const sig = await crypto.subtle.sign("HMAC", key, enc.encode(message));
+  return Array.from(new Uint8Array(sig))
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
+}
+
+function safeEqualHex(a: string, b: string) {
+  const left = a.trim().toLowerCase();
+  const right = b.trim().toLowerCase();
+  if (left.length !== right.length) return false;
+  let diff = 0;
+  for (let i = 0; i < left.length; i++) {
+    diff |= left.charCodeAt(i) ^ right.charCodeAt(i);
+  }
+  return diff === 0;
 }
