@@ -10,8 +10,8 @@
                    "directory":  "dist/client"
                },
     "vars":  {
-                 "SUPABASE_URL":  "https://onpxqvclceahazyhxhtw.supabase.co",
-                 "SUPABASE_PUBLISHABLE_KEY":  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9ucHhxdmNsY2VhaGF6eWh4aHR3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkwNzM4MjEsImV4cCI6MjA5NDY0OTgyMX0.OJ3ttlArKHb-U-iR0vrokkzr6oBnRXJl3ty0plnb8_M"
+                 "SUPABASE_URL":  "https://efjqlaemdmmuabsdtpnz.supabase.co",
+                 "SUPABASE_PUBLISHABLE_KEY":  "sb_publishable_AhV_7DG1-PBlG9wMutpR2Q_L7KlCkTr"
              },
     "keep_vars":  true
 }
