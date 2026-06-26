@@ -330,79 +330,40 @@ function HomePage() {
         </div>
       )}
 
-      {/* Game hub — compact */}
+      {/* Game hub - equal action buttons */}
       <div>
         <h2 className="text-xs font-extrabold mb-1.5 text-gold tracking-tight" style={{ fontFamily: "var(--font-display)" }}>
           {lang === "bn" ? "গেম খেলুন" : "Play Games"}
         </h2>
-        <div className="flex gap-2 items-stretch">
-          <Link
+        <div className="grid grid-cols-3 gap-2">
+          <GameHubButton
             to="/games"
-            className="flex-1 block relative h-24 rounded-2xl overflow-hidden active:scale-[0.98] transition border-2 border-yellow-400/70 shadow-[0_4px_0_rgba(0,0,0,0.4),0_0_22px_rgba(0,80,255,0.4),inset_0_1px_0_rgba(255,255,255,0.2)]"
-            style={{ background: "radial-gradient(ellipse at center, oklch(0.32 0.14 258) 0%, oklch(0.14 0.08 258) 100%)" }}
-          >
-            <span className="absolute -left-4 -top-6 h-24 w-24 rounded-full bg-blue-500/40 blur-2xl" />
-            <span className="absolute -right-4 -bottom-6 h-24 w-24 rounded-full bg-fuchsia-500/30 blur-2xl" />
-
-            <div
-              className="absolute left-3 top-1/2 -translate-y-1/2 h-16 w-16 rounded-full bg-gradient-to-br from-sky-400 to-blue-700 ring-2 ring-yellow-300/70 flex items-center justify-center"
-              style={{ boxShadow: "0 6px 0 rgba(0,0,0,0.4), 0 0 20px rgba(56,189,248,0.6), inset 0 2px 0 rgba(255,255,255,0.4), inset 0 -8px 14px rgba(0,0,0,0.35)" }}
-            >
-              <span className="absolute top-[12%] left-[20%] h-3 w-5 rounded-full bg-white/40 blur-[2px]" />
-              <Dices className="h-9 w-9 text-white drop-shadow-[0_2px_3px_rgba(0,0,0,0.5)]" strokeWidth={2.2} />
-            </div>
-
-            <div className="absolute inset-y-0 left-24 right-3 flex flex-col items-center justify-center">
-              <div
-                className="text-[clamp(14px,4.5vw,20px)] font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-b from-yellow-100 via-yellow-300 to-amber-600 drop-shadow-[0_2px_0_rgba(0,0,0,0.6)]"
-                style={{ fontFamily: "var(--font-display)", WebkitTextStroke: "0.5px rgba(120,80,0,0.5)" }}
-              >
-                {lang === "bn" ? "লুডু গেম" : "Ludo Game"}
-              </div>
-              <div className="text-[clamp(7px,2.2vw,10px)] font-semibold text-white/85 tracking-wide mt-0.5">
-                {lang === "bn" ? "ক্লাসিক • স্পিড • কুইক" : "Classic • Speed • Quick"}
-              </div>
-            </div>
-
-            <span className="absolute top-1.5 right-2 text-[9px] px-1.5 py-0.5 rounded-full bg-gradient-to-b from-red-500 to-red-700 text-white font-black border border-yellow-300 shadow-[0_0_8px_rgba(255,80,80,0.6)]">HOT</span>
-          </Link>
-
-          {royalEnabled && (
-            <Link
+            icon={<Dices className="h-6 w-6 text-white drop-shadow-[0_2px_3px_rgba(0,0,0,0.45)]" strokeWidth={2.4} />}
+            label="Ludo"
+            accent="from-sky-400 to-blue-700"
+          />
+          {royalEnabled ? (
+            <GameHubButton
               to="/royal-steps"
-              className="shrink-0 w-20 h-24 rounded-2xl border-2 border-yellow-400/70 flex flex-col items-center justify-center gap-1 active:translate-y-0.5 transition shadow-[0_4px_0_rgba(0,0,0,0.4),0_0_18px_rgba(255,180,0,0.45),inset_0_1px_0_rgba(255,255,255,0.18)] relative overflow-hidden"
-              style={{ background: "radial-gradient(ellipse at center, oklch(0.32 0.14 258) 0%, oklch(0.14 0.08 258) 100%)" }}
-              aria-label="Royal Steps"
-            >
-              <div
-                className="relative h-9 w-9 rounded-full bg-gradient-to-br from-amber-300 to-orange-600 flex items-center justify-center"
-                style={{ boxShadow: "0 4px 0 rgba(0,0,0,0.35), 0 0 14px rgba(251,191,36,0.55), inset 0 2px 0 rgba(255,255,255,0.45), inset 0 -5px 10px rgba(0,0,0,0.3)" }}
-              >
-                <span className="absolute top-[10%] left-[18%] h-1.5 w-3 rounded-full bg-white/45 blur-[1.5px]" />
-                <Trophy className="h-5 w-5 text-white" strokeWidth={2.5} />
-              </div>
-              <span className="text-[8px] font-black text-yellow-200/95 tracking-wide leading-tight text-center px-1">
-                {lang === "bn" ? "রয়্যাল স্টেপস" : "Royal Steps"}
-              </span>
-            </Link>
+              icon={<Trophy className="h-6 w-6 text-white drop-shadow-[0_2px_3px_rgba(0,0,0,0.45)]" strokeWidth={2.5} />}
+              label="Royal Steps"
+              accent="from-amber-300 to-orange-600"
+            />
+          ) : (
+            <GameHubButton
+              to="/games"
+              icon={<Trophy className="h-6 w-6 text-white drop-shadow-[0_2px_3px_rgba(0,0,0,0.45)]" strokeWidth={2.5} />}
+              label="Royal Steps"
+              accent="from-amber-300 to-orange-600"
+            />
           )}
-
-          <button
-            onClick={() => toast.info(lang === "bn" ? "শীঘ্রই আসছে" : "Coming soon")}
-            className="shrink-0 w-12 h-24 rounded-2xl border-2 border-yellow-400/60 flex flex-col items-center justify-center gap-1 active:translate-y-0.5 transition shadow-[0_4px_0_rgba(0,0,0,0.4),0_0_18px_rgba(255,180,0,0.35),inset_0_1px_0_rgba(255,255,255,0.18)]"
-            style={{ background: "radial-gradient(ellipse at center, oklch(0.32 0.14 258) 0%, oklch(0.14 0.08 258) 100%)" }}
-            aria-label="More games"
-          >
-            <div
-              className="relative h-8 w-8 rounded-full bg-gradient-to-br from-amber-300 to-orange-600 flex items-center justify-center"
-              style={{ boxShadow: "0 3px 0 rgba(0,0,0,0.35), 0 0 12px rgba(251,191,36,0.55), inset 0 2px 0 rgba(255,255,255,0.45), inset 0 -5px 10px rgba(0,0,0,0.3)" }}
-            >
-              <Plus className="h-4 w-4 text-white" strokeWidth={3} />
-            </div>
-          </button>
-
+          <GameHubButton
+            to="/fx-casino"
+            icon={<Sparkles className="h-6 w-6 text-white drop-shadow-[0_2px_3px_rgba(0,0,0,0.45)]" strokeWidth={2.5} />}
+            label="Fx Casino"
+            accent="from-emerald-300 to-teal-700"
+          />
         </div>
-
       </div>
 
       {/* Upcoming tournaments */}
@@ -549,6 +510,29 @@ function LiveStats({ lang, cfg }: { lang: string; cfg: LiveBoardCfg }) {
     </div>
   );
 
+}
+
+function GameHubButton({ icon, label, to, accent }: { icon: React.ReactNode; label: string; to: string; accent: string }) {
+  return (
+    <Link
+      to={to}
+      className="group relative h-24 rounded-2xl overflow-hidden border-2 border-yellow-400/70 bg-[radial-gradient(ellipse_at_center,oklch(0.32_0.14_258)_0%,oklch(0.14_0.08_258)_100%)] shadow-[0_4px_0_rgba(0,0,0,0.38),0_0_18px_rgba(0,80,255,0.28),inset_0_1px_0_rgba(255,255,255,0.18)] active:translate-y-0.5 transition"
+    >
+      <span className="absolute -left-5 -top-6 h-20 w-20 rounded-full bg-blue-500/30 blur-2xl" />
+      <span className="absolute -right-6 -bottom-7 h-20 w-20 rounded-full bg-amber-400/20 blur-2xl" />
+      <div className="relative z-10 flex h-full flex-col items-center justify-center gap-2 px-1.5 text-center">
+        <div
+          className={["h-11 w-11 rounded-full bg-gradient-to-br ring-2 ring-yellow-300/70 flex items-center justify-center transition group-active:scale-95", accent].join(" ")}
+          style={{ boxShadow: "0 5px 0 rgba(0,0,0,0.35), 0 0 16px rgba(251,191,36,0.42), inset 0 2px 0 rgba(255,255,255,0.38), inset 0 -7px 12px rgba(0,0,0,0.3)" }}
+        >
+          {icon}
+        </div>
+        <span className="min-h-[28px] flex items-center justify-center text-[11px] font-black leading-tight text-yellow-100 drop-shadow-[0_2px_0_rgba(0,0,0,0.55)]">
+          {label}
+        </span>
+      </div>
+    </Link>
+  );
 }
 
 function QuickAction({ icon, label, to }: { icon: React.ReactNode; label: string; to: string }) {
