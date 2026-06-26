@@ -13,11 +13,5 @@
                  "SUPABASE_URL":  "https://efjqlaemdmmuabsdtpnz.supabase.co",
                  "SUPABASE_PUBLISHABLE_KEY":  "sb_publishable_AhV_7DG1-PBlG9wMutpR2Q_L7KlCkTr"
              },
-    "keep_vars":  true,
-    "routes":  [
-                   {
-                       "custom_domain":  true,
-                       "pattern":  "ludocoinss.com"
-                   }
-               ]
+    "keep_vars":  true
 }
