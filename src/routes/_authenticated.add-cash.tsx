@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
 import { useServerFn } from "@tanstack/react-start";
-import { initFincraDeposit } from "@/lib/fincra.functions";
+import { getFincraPublicStatus, initFincraDeposit } from "@/lib/fincra.functions";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/add-cash")({
@@ -29,6 +29,7 @@ function AddCashPage() {
   const [qtAmount, setQtAmount] = useState("");
   const [qtBusy, setQtBusy] = useState(false);
   const initQt = useServerFn(initFincraDeposit);
+  const fincraStatus = useServerFn(getFincraPublicStatus);
   const formRef = useRef<HTMLFormElement>(null);
 
   useEffect(() => {
@@ -45,16 +46,10 @@ function AddCashPage() {
           winnings: Number(data.winnings_balance) || 0,
         }),
       );
-    supabase
-      .from("app_settings")
-      .select("value")
-      .eq("key", "fincra")
-      .maybeSingle()
-      .then(({ data }) => {
-        const v = (data?.value ?? {}) as { enabled?: boolean };
-        setQtEnabled(!!v.enabled);
-      });
-  }, [user]);
+    fincraStatus()
+      .then((status) => setQtEnabled(!!status?.enabled))
+      .catch(() => setQtEnabled(false));
+  }, [user, fincraStatus]);
 
   const startQuickteller = async () => {
     const amt = Number(qtAmount);
@@ -65,7 +60,6 @@ function AddCashPage() {
     setQtBusy(true);
     try {
       const res = await initQt({ data: { amount: amt } });
-      // Redirect to Fincra hosted checkout
       window.location.href = res.checkout_url;
     } catch (e) {
       toast.error(e instanceof Error ? e.message : "Failed to start payment");
@@ -106,7 +100,7 @@ function AddCashPage() {
           <p className="text-[11px] text-muted-foreground">
             {lang === "bn"
               ? "কার্ড বা ব্যাংকে পে করলে সাথে সাথে ব্যালেন্স যোগ হবে।"
-              : "Pay with card or bank — balance credits automatically."}
+              : "Pay with card or bank - balance credits automatically."}
           </p>
           <div>
             <Label className="text-[11px]">{lang === "bn" ? "পরিমাণ" : "Amount"}</Label>
@@ -122,8 +116,8 @@ function AddCashPage() {
             <Zap className="h-4 w-4 mr-1" />
             {qtBusy
               ? lang === "bn"
-                ? "শুরু হচ্ছে…"
-                : "Starting…"
+                ? "শুরু হচ্ছে..."
+                : "Starting..."
               : lang === "bn"
                 ? "Fincra এ পে করুন"
                 : "Pay with Fincra"}
@@ -133,8 +127,8 @@ function AddCashPage() {
 
       <div className="rounded-2xl glass-rim p-4 text-sm leading-relaxed text-foreground/90">
         {lang === "bn"
-          ? "অথবা ম্যানুয়াল মেথড দিয়ে পাঠিয়ে Transaction ID দিন — অ্যাডমিন ১৫ মিনিটের মধ্যে অ্যাপ্রুভ করবে।"
-          : "Or use a manual method and submit the Transaction ID — admin approves within 15 minutes."}
+          ? "অথবা ম্যানুয়াল মেথড দিয়ে পাঠিয়ে Transaction ID দিন - অ্যাডমিন ১৫ মিনিটের মধ্যে অ্যাপ্রুভ করবে।"
+          : "Or use a manual method and submit the Transaction ID - admin approves within 15 minutes."}
       </div>
 
       <Button variant="secondary" className="w-full" onClick={() => setOpen(true)}>
