@@ -16,8 +16,8 @@
     "keep_vars":  true,
     "routes":  [
                    {
-                       "zone_name":  "ludocoinss.com",
-                       "pattern":  "ludocoinss.com/*"
+                       "custom_domain":  true,
+                       "pattern":  "ludocoinss.com"
                    }
                ]
 }
